@@ -74,7 +74,7 @@ In the toolkit, set the **API URL** field (top of the results panel) to
 }
 ```
 
-## What is wired vs. what you must confirm (honest status)
+## What is wired vs. what you must confirm (current status)
 
 | Step | Status |
 |------|--------|
@@ -85,7 +85,7 @@ In the toolkit, set the **API URL** field (top of the results panel) to
 | `ChannelMetricsAnalyzer` (migration) | **Wired**, but needs ROI polygon(s) + bankline/occurrence/elevation dirs (your `05_Banklines`, `intertidal_elevation`, …). Returns a clear "needs input" until supplied |
 | `RiverSurfaceProfiler` (WSE) | **Wired** via a minimal adapter from the uploaded gauge file. For full harmonic reconstruction, switch to `WaterLevelPipeline + StationLocations` (your Excel/station layout) |
 
-### Important caveats (not hidden)
+### Important caveats ATM
 
 - **Global ROIs vs WRS path/row.** `MNDWIExporter` filters by explicit
   `wrs_path`/`wrs_row`. For arbitrary deltas the backend subclasses it to use
