@@ -1,2 +1,2 @@
-# DeltaSAT-0.1
+# DeltaSAT
 
