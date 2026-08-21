@@ -1,0 +1,20 @@
+# --- API ---
+fastapi>=0.110
+uvicorn[standard]>=0.29
+python-multipart>=0.0.9
+# --- Earth Engine (preview tiles + export) ---
+earthengine-api>=0.1.390
+geemap>=0.32
+# --- your Modules' scientific stack ---
+numpy
+pandas
+scipy
+rasterio
+geopandas
+shapely
+pyproj
+scikit-image
+matplotlib
+tifffile
+openpyxl       # Excel (.xlsx) reading
+tqdm

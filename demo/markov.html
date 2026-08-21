@@ -1,0 +1,68 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transition matrix & Markov chains — DeltaSAT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="theme.css">
+</head><body>
+<header><div class="wrap"><nav>
+  <a class="brand" href="index.html">
+    <svg width="26" height="26" viewBox="0 0 26 26"><path d="M3 19c5-1 6-7 11-7s7 5 9 4" fill="none" stroke="#5F7B86" stroke-width="2.4" stroke-linecap="round"/><path d="M3 13c5-1 6-6 11-6s7 4 9 3" fill="none" stroke="#9CAB8A" stroke-width="2.4" stroke-linecap="round" opacity=".85"/><circle cx="13" cy="13" r="12" fill="none" stroke="#C2AE92" stroke-width="1.4"/></svg>
+    DeltaSAT
+  </a>
+  <div class="navlinks">
+    <a href="index.html#capabilities">Capabilities</a>
+    <a href="index.html#methods">Methods</a>
+    <a href="index.html#data">Data &amp; engine</a>
+    <a href="#" class="btn">Launch toolkit →</a>
+  </div>
+</nav></div></header>
+<section class="mhero"><div class="wrap">
+  <p class="crumb"><a href="index.html#methods">Methods</a> &nbsp;/&nbsp; Transition matrix &amp; Markov chains</p>
+  <h1 class="rise">Transition matrix &amp; Markov-chain lifespan</h1>
+  <p class="sub rise" style="animation-delay:.1s">Quantifying how intertidal areas persist, convert between classes, and how long they are expected to last.</p>
+  <div class="mtags chips"><span class="chip">Transition matrix</span><span class="chip">Markov chain</span><span class="chip">Persistence</span></div>
+</div></section>
+<section class="block"><div class="wrap prose">
+  <h3>What it computes</h3>
+  <p>Given a sequence of yearly classified maps — for example the states {permanent water, intertidal, land} — DeltaSAT counts how many pixels move from each class to each other class between consecutive years. Normalising those counts row-wise gives a transition matrix whose entry <i class="v">P</i><sub>ij</sub> is the one-year probability of moving from class <i class="v">i</i> to class <i class="v">j</i>.</p>
+  <div class="eqn"><span class="lbl">Transition matrix</span>
+    <i class="v">P</i><sub>ij</sub> = <i class="v">n</i><sub>ij</sub> / Σ<sub>j</sub> <i class="v">n</i><sub>ij</sub>, &nbsp; with &nbsp; Σ<sub>j</sub> <i class="v">P</i><sub>ij</sub> = 1
+  </div>
+  <h3>Projection &amp; lifespan</h3>
+  <p>A class distribution evolves by repeated multiplication with <i class="v">P</i>; the stationary distribution is its eigenvector:</p>
+  <div class="eqn"><span class="lbl">Evolution</span>
+    π<sub>t+1</sub> = π<sub>t</sub> <i class="v">P</i> &nbsp;·&nbsp; π<sub>t+n</sub> = π<sub>t</sub> <i class="v">P</i><sup>&nbsp;n</sup> &nbsp;·&nbsp; stationary: π = π<i class="v">P</i>
+  </div>
+  <p>Under a first-order Markov assumption, the time a pixel remains in a state with self-transition probability <i class="v">p</i><sub>ii</sub> is geometrically distributed, so the expected lifespan is:</p>
+  <div class="eqn"><span class="lbl">Expected residence time</span> E[<i class="v">T</i>] = 1 / (1 − <i class="v">p</i><sub>ii</sub>) &nbsp;<small>years</small></div>
+  <p>The diagonal entries therefore summarise intertidal stability, while the off-diagonals reveal the dominant conversion pathways: intertidal → land indicates accretion or reclamation; intertidal → water indicates erosion or submergence.</p>
+  <div class="figslot">Transition matrix heatmap · class trajectory chart<span>add your graphic here</span></div>
+  <div class="note warn"><b>The model assumptions are strong.</b> A first-order Markov chain assumes the next state depends only on the current one and that <i class="v">P</i> is stationary (constant through time). Geomorphic systems frequently violate both — trends, episodic events (storms, avulsions) and memory effects break stationarity. Estimate <i class="v">P</i> over sub-periods and compare before projecting forward.</div>
+  <h3>Assumptions &amp; limitations</h3>
+  <ul>
+    <li>Classification error inflates spurious transitions; class definitions must be consistent across all years.</li>
+    <li>E[<i class="v">T</i>] is a model expectation, not a directly measured lifespan — report it as such.</li>
+    <li>Results depend on the chosen state set and the time step (annual here).</li>
+  </ul>
+  <h3>References</h3>
+  <ol class="refs">
+    <li>Muller, M.R. &amp; Middleton, J. (1994). A Markov model of land-use change dynamics in the Niagara Region. <em>Landscape Ecology</em>, 9(2), 151–157.</li>
+    <li>Pekel, J.-F. et al. (2016). High-resolution mapping of global surface water and its long-term changes. <em>Nature</em>, 540, 418–422. (Class source.)</li>
+  </ol>
+</div></section>
+<footer><div class="wrap">
+  <div class="fcol">
+    <div class="brand" style="display:flex;align-items:center;gap:10px;font-family:"Roboto",sans-serif;font-weight:700;font-size:1.12rem">
+      <svg width="24" height="24" viewBox="0 0 26 26"><path d="M3 19c5-1 6-7 11-7s7 5 9 4" fill="none" stroke="#9CAB8A" stroke-width="2.4" stroke-linecap="round"/><path d="M3 13c5-1 6-6 11-6s7 4 9 3" fill="none" stroke="#C7D2D7" stroke-width="2.4" stroke-linecap="round"/><circle cx="13" cy="13" r="12" fill="none" stroke="#C2AE92" stroke-width="1.4"/></svg>
+      DeltaSAT
+    </div>
+    <p style="max-width:30ch;color:#aeb8b3">An educational and analysis webGIS toolkit for hydro-geomorphology of the world's deltas.</p>
+  </div>
+  <div class="fcol"><h4>Methods</h4><a href="water-indices.html">Water indices</a><a href="river-extraction.html">River extraction</a><a href="singularity-index.html">Singularity index</a></div>
+  <div class="fcol"><h4></h4><a href="intertidal.html">Intertidal mapping</a><a href="markov.html">Markov lifespan</a><a href="migration.html">Migration rates</a></div>
+  <div class="fcol"><h4>Toolkit</h4><a href="index.html">Home</a><a href="index.html#capabilities">Capabilities</a><a href="#">Launch</a></div>
+</div>
+<div class="wrap fine">© 2026 DeltaSAT · educational webGIS toolkit for delta morphodynamics.</div>
+</footer>
+</body></html>
