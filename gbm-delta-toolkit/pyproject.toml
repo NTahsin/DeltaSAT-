@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gbm-delta"
+version = "0.2.1"
+description = "GBM delta intertidal morphodynamics toolkit: tide gauges, satellite water indices, river/bankline/centerline mapping, elevation, accommodation, prism, sediment mass, DTMC lifespan"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+dependencies = [
+    "numpy>=1.24",
+    "pandas>=2.0",
+    "scipy>=1.10",
+    "rasterio>=1.3",
+]
+
+[project.optional-dependencies]
+extract = ["scikit-image>=0.21", "tifffile>=2023.1"]
+vectors = ["shapely>=2.0", "fiona>=1.9", "geopandas>=0.13"]
+viz = ["matplotlib>=3.7", "pillow>=10.0", "cmocean>=2.0", "seaborn>=0.13"]
+gee = ["earthengine-api>=0.1.350"]
+all = ["gbm-delta[extract,vectors,viz]"]
+
+[tool.setuptools.packages.find]
+include = ["gbm_delta*"]
