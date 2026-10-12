@@ -15,7 +15,6 @@ banklines, etc.) keep working without modification.
 
 ## 1. Package layout
 
-'''
 gbm_delta/
 ├── config.py                 shared constants (class codes, seasons, CRS, stations)
 ├── utils.py                  small shared helpers (dates, Otsu, GeoTIFF I/O, IDW)
@@ -73,7 +72,7 @@ gbm_delta/
     ├── along_channel.py       along-channel levels & asymmetry (UPDATED)
     └── map_gif.py             map GIF / subplot panels (NEW, from notebook)
 
-'''
+
 *(Items marked "unchanged" are not duplicated in this archive — they are
 already in your v0.1.0 tree.)*
 
