@@ -1,0 +1,23 @@
+# Core (extraction + morphodynamics + water levels)
+numpy>=1.24
+pandas>=2.0
+scipy>=1.10
+scikit-image>=0.21
+rasterio>=1.3
+tifffile>=2023.1
+matplotlib>=3.7
+
+# Optional — vectors / ROI clipping
+shapely>=2.0
+fiona>=1.9
+geopandas>=0.13
+pyproj>=3.5
+
+# Optional — figures & animation
+pillow>=10.0
+cmocean>=2.0
+seaborn>=0.13
+tqdm>=4.65
+
+# Optional — Google Earth Engine side (cloud download only)
+# earthengine-api>=0.1.350
