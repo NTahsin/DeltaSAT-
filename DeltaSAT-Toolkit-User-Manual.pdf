@@ -1,0 +1,316 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 6 /Kids [4 0 R 6 0 R 8 0 R 10 0 R 12 0 R 14 0 R] >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 3721 >>
+stream
+q 0.37 0.48 0.53 rg 0 724 595 118 re f Q
+q 0.76 0.68 0.57 rg 0 719 595 5 re f Q
+BT 1 1 1 rg /F2 25 Tf 58.0 788.0 Td (DELTASAT TOOLKIT) Tj ET
+BT 0.96 0.94 0.9 rg /F1 13 Tf 58.0 766.0 Td (USER MANUAL) Tj ET
+BT 0.88 0.93 0.94 rg /F1 10 Tf 58.0 748.0 Td (Intertidal extent & elevation of the Meghna estuary) Tj ET
+BT 0.96 0.94 0.9 rg /F1 9 Tf 457.5 788.0 Td (v1.0 - October 2026) Tj ET
+q 0.37 0.48 0.53 rg 62 667 m 74 667 l 76.2092 667 78 668.7908 78 671 c 78 683 l 78 685.2092 76.2092 687 74 687 c 62 687 l 59.7908 687 58 685.2092 58 683 c 58 671 l 58 668.7908 59.7908 667 62 667 c h f Q
+BT 1 1 1 rg /F2 11 Tf 64.9 672.0 Td (1) Tj ET
+BT 0.18 0.23 0.23 rg /F2 14.5 Tf 88.0 671.0 Td (What the toolkit does) Tj ET
+q 0.76 0.68 0.57 RG 1.1 w 58 662 m 537 662 l S Q
+BT 0.18 0.23 0.23 rg /F1 10 Tf 58.0 642.0 Td (DeltaSAT maps the intertidal area of the Meghna estuary from Landsat satellite imagery and hourly gauge) Tj ET
+BT 0.18 0.23 0.23 rg /F1 10 Tf 58.0 628.5 Td (records. You draw a region on a satellite map and press one button; the toolkit computes the yearly) Tj ET
+BT 0.18 0.23 0.23 rg /F1 10 Tf 58.0 615.0 Td (intertidal extent, the lifespan of each intertidal patch, and the relative elevation of the intertidal surface.) Tj ET
+q 0.62 0.35 0.25 rg 66.8 601.9 m 66.8 602.89414 65.99414 603.6999999999999 65 603.6999999999999 c 64.00586 603.6999999999999 63.2 602.89414 63.2 601.9 c 63.2 600.90586 64.00586 600.1 65 600.1 c 65.99414 600.1 66.8 600.90586 66.8 601.9 c f Q
+BT 0.18 0.23 0.23 rg /F1 10 Tf 76.0 598.5 Td (One analysis: intertidal extent & elevation.) Tj ET
+q 0.62 0.35 0.25 rg 66.8 586.9 m 66.8 587.89414 65.99414 588.6999999999999 65 588.6999999999999 c 64.00586 588.6999999999999 63.2 587.89414 63.2 586.9 c 63.2 585.90586 64.00586 585.1 65 585.1 c 65.99414 585.1 66.8 585.90586 66.8 586.9 c f Q
+BT 0.18 0.23 0.23 rg /F1 10 Tf 76.0 583.5 Td (Nothing to upload - imagery \(Landsat 5/8 via the Google Earth Engine Python API\) and water levels \(10) Tj ET
+BT 0.18 0.23 0.23 rg /F1 10 Tf 76.0 570.5 Td (gauges of the GBM hydro-morphological database\) are fetched automatically.) Tj ET
+q 0.62 0.35 0.25 rg 66.8 558.9 m 66.8 559.89414 65.99414 560.6999999999999 65 560.6999999999999 c 64.00586 560.6999999999999 63.2 559.89414 63.2 558.9 c 63.2 557.90586 64.00586 557.1 65 557.1 c 65.99414 557.1 66.8 557.90586 66.8 558.9 c f Q
+BT 0.18 0.23 0.23 rg /F1 10 Tf 76.0 555.5 Td (Everything runs on your own machine; results appear in the browser.) Tj ET
+q 0.37 0.48 0.53 rg 62 527.5 m 74 527.5 l 76.2092 527.5 78 529.2908 78 531.5 c 78 543.5 l 78 545.7092 76.2092 547.5 74 547.5 c 62 547.5 l 59.7908 547.5 58 545.7092 58 543.5 c 58 531.5 l 58 529.2908 59.7908 527.5 62 527.5 c h f Q
+BT 1 1 1 rg /F2 11 Tf 64.9 532.5 Td (2) Tj ET
+BT 0.18 0.23 0.23 rg /F2 14.5 Tf 88.0 531.5 Td (What you need) Tj ET
+q 0.76 0.68 0.57 RG 1.1 w 58 522.5 m 537 522.5 l S Q
+q 0.61 0.67 0.54 RG 0.8 w 60 502.0 8.5 8.5 re S Q
+BT 0.18 0.23 0.23 rg /F1 10 Tf 78.0 502.5 Td (Python 3.10 or newer) Tj ET
+q 0.61 0.67 0.54 RG 0.8 w 60 487.0 8.5 8.5 re S Q
+BT 0.18 0.23 0.23 rg /F1 10 Tf 78.0 487.5 Td (An internet connection) Tj ET
+q 0.61 0.67 0.54 RG 0.8 w 60 472.0 8.5 8.5 re S Q
+BT 0.18 0.23 0.23 rg /F1 10 Tf 78.0 472.5 Td (A Google Earth Engine account \(free for research - code.earthengine.google.com\). Only needed for) Tj ET
+BT 0.18 0.23 0.23 rg /F1 10 Tf 78.0 459.0 Td (real results.) Tj ET
+q 0.61 0.67 0.54 RG 0.8 w 60 443.5 8.5 8.5 re S Q
+BT 0.18 0.23 0.23 rg /F1 10 Tf 78.0 444.0 Td (The gbm-toolkit folder, placed next to the demo folder) Tj ET
+q 0.87 0.85 0.8 RG 0.6 w 58 42 m 537 42 l S Q
+BT 0.45 0.45 0.42 rg /F1 8 Tf 58.0 30.0 Td (DeltaSAT Toolkit - User Manual) Tj ET
+BT 0.45 0.45 0.42 rg /F1 8 Tf 511.6 30.0 Td (Page 1) Tj ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 3093 >>
+stream
+q 0.37 0.48 0.53 rg 0 808 595 34 re f Q
+BT 1 1 1 rg /F2 11 Tf 58.0 820.0 Td (DeltaSAT Toolkit) Tj ET
+BT 0.96 0.94 0.9 rg /F1 9 Tf 486.0 821.0 Td (User Manual) Tj ET
+q 0.37 0.48 0.53 rg 62 759 m 74 759 l 76.2092 759 78 760.7908 78 763 c 78 775 l 78 777.2092 76.2092 779 74 779 c 62 779 l 59.7908 779 58 777.2092 58 775 c 58 763 l 58 760.7908 59.7908 759 62 759 c h f Q
+BT 1 1 1 rg /F2 11 Tf 64.9 764.0 Td (3) Tj ET
+BT 0.18 0.23 0.23 rg /F2 14.5 Tf 88.0 763.0 Td (One-time setup) Tj ET
+q 0.76 0.68 0.57 RG 1.1 w 58 754 m 537 754 l S Q
+q 0.37 0.48 0.53 rg 73 737.2 m 73 741.6184000000001 69.4184 745.2 65 745.2 c 60.5816 745.2 57 741.6184000000001 57 737.2 c 57 732.7816 60.5816 729.2 65 729.2 c 69.4184 729.2 73 732.7816 73 737.2 c f Q
+BT 1 1 1 rg /F2 9.5 Tf 62.4 733.4 Td (1) Tj ET
+BT 0.18 0.23 0.23 rg /F2 10 Tf 80.0 734.0 Td (Install the Python packages) Tj ET
+q 0.96 0.94 0.9 rg 0.87 0.85 0.8 RG 0.8 w 64 680.5 m 531 680.5 l 534.3138 680.5 537 683.1862 537 686.5 c 537 721.5 l 537 724.8138 534.3138 727.5 531 727.5 c 64 727.5 l 60.6862 727.5 58 724.8138 58 721.5 c 58 686.5 l 58 683.1862 60.6862 680.5 64 680.5 c h B Q
+BT 0.18 0.23 0.23 rg /F3 9.5 Tf 71.0 707.5 Td (cd demo) Tj ET
+BT 0.18 0.23 0.23 rg /F3 9.5 Tf 71.0 693.0 Td (pip install -r requirements.txt) Tj ET
+q 0.37 0.48 0.53 rg 73 663.7 m 73 668.1184000000001 69.4184 671.7 65 671.7 c 60.5816 671.7 57 668.1184000000001 57 663.7 c 57 659.2816 60.5816 655.7 65 655.7 c 69.4184 655.7 73 659.2816 73 663.7 c f Q
+BT 1 1 1 rg /F2 9.5 Tf 62.4 659.9 Td (2) Tj ET
+BT 0.18 0.23 0.23 rg /F2 10 Tf 80.0 660.5 Td (Log in to Earth Engine \(once per machine\)) Tj ET
+q 0.96 0.94 0.9 rg 0.87 0.85 0.8 RG 0.8 w 64 621.5 m 531 621.5 l 534.3138 621.5 537 624.1862 537 627.5 c 537 648.0 l 537 651.3138 534.3138 654.0 531 654.0 c 64 654.0 l 60.6862 654.0 58 651.3138 58 648.0 c 58 627.5 l 58 624.1862 60.6862 621.5 64 621.5 c h B Q
+BT 0.18 0.23 0.23 rg /F3 9.5 Tf 71.0 634.0 Td (earthengine authenticate) Tj ET
+q 0.37 0.48 0.53 rg 73 604.7 m 73 609.1184000000001 69.4184 612.7 65 612.7 c 60.5816 612.7 57 609.1184000000001 57 604.7 c 57 600.2816 60.5816 596.7 65 596.7 c 69.4184 596.7 73 600.2816 73 604.7 c f Q
+BT 1 1 1 rg /F2 9.5 Tf 62.4 600.9 Td (3) Tj ET
+BT 0.18 0.23 0.23 rg /F2 10 Tf 80.0 601.5 Td (Check the folder layout) Tj ET
+BT 0.18 0.23 0.23 rg /F1 10 Tf 58.0 585.0 Td (Both folders must sit side by side:) Tj ET
+q 0.96 0.94 0.9 rg 0.87 0.85 0.8 RG 0.8 w 64 517.0 m 531 517.0 l 534.3138 517.0 537 519.6862 537 523.0 c 537 572.5 l 537 575.8138 534.3138 578.5 531 578.5 c 64 578.5 l 60.6862 578.5 58 575.8138 58 572.5 c 58 523.0 l 58 519.6862 60.6862 517.0 64 517.0 c h B Q
+BT 0.18 0.23 0.23 rg /F3 9.5 Tf 71.0 558.5 Td (DeltaSAT-/) Tj ET
+BT 0.18 0.23 0.23 rg /F3 9.5 Tf 71.0 544.0 Td (  demo/          <- the web app \(this manual's subject\)) Tj ET
+BT 0.18 0.23 0.23 rg /F3 9.5 Tf 71.0 529.5 Td (  gbm-toolkit/   <- the gbm_delta analysis package) Tj ET
+q 0.87 0.85 0.8 RG 0.6 w 58 42 m 537 42 l S Q
+BT 0.45 0.45 0.42 rg /F1 8 Tf 58.0 30.0 Td (DeltaSAT Toolkit - User Manual) Tj ET
+BT 0.45 0.45 0.42 rg /F1 8 Tf 511.6 30.0 Td (Page 2) Tj ET
+endstream
+endobj
+10 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 11 0 R >>
+endobj
+11 0 obj
+<< /Length 3239 >>
+stream
+q 0.37 0.48 0.53 rg 0 808 595 34 re f Q
+BT 1 1 1 rg /F2 11 Tf 58.0 820.0 Td (DeltaSAT Toolkit) Tj ET
+BT 0.96 0.94 0.9 rg /F1 9 Tf 486.0 821.0 Td (User Manual) Tj ET
+q 0.37 0.48 0.53 rg 62 759 m 74 759 l 76.2092 759 78 760.7908 78 763 c 78 775 l 78 777.2092 76.2092 779 74 779 c 62 779 l 59.7908 779 58 777.2092 58 775 c 58 763 l 58 760.7908 59.7908 759 62 759 c h f Q
+BT 1 1 1 rg /F2 11 Tf 64.9 764.0 Td (4) Tj ET
+BT 0.18 0.23 0.23 rg /F2 14.5 Tf 88.0 763.0 Td (Start the toolkit) Tj ET
+q 0.76 0.68 0.57 RG 1.1 w 58 754 m 537 754 l S Q
+q 0.37 0.48 0.53 rg 73 737.2 m 73 741.6184000000001 69.4184 745.2 65 745.2 c 60.5816 745.2 57 741.6184000000001 57 737.2 c 57 732.7816 60.5816 729.2 65 729.2 c 69.4184 729.2 73 732.7816 73 737.2 c f Q
+BT 1 1 1 rg /F2 9.5 Tf 62.4 733.4 Td (1) Tj ET
+BT 0.18 0.23 0.23 rg /F2 10 Tf 80.0 734.0 Td (Run the launcher) Tj ET
+q 0.96 0.94 0.9 rg 0.87 0.85 0.8 RG 0.8 w 64 680.5 m 531 680.5 l 534.3138 680.5 537 683.1862 537 686.5 c 537 721.5 l 537 724.8138 534.3138 727.5 531 727.5 c 64 727.5 l 60.6862 727.5 58 724.8138 58 721.5 c 58 686.5 l 58 683.1862 60.6862 680.5 64 680.5 c h B Q
+BT 0.18 0.23 0.23 rg /F3 9.5 Tf 71.0 707.5 Td (cd demo) Tj ET
+BT 0.18 0.23 0.23 rg /F3 9.5 Tf 71.0 693.0 Td (python run.py) Tj ET
+BT 0.18 0.23 0.23 rg /F1 10 Tf 58.0 660.5 Td (This starts the server AND opens the toolkit in your browser \(http://localhost:8000/toolkit.html\). Keep the) Tj ET
+BT 0.18 0.23 0.23 rg /F1 10 Tf 58.0 647.0 Td (terminal open while you work - closing it stops the toolkit.) Tj ET
+q 0.37 0.48 0.53 rg 73 633.7 m 73 638.1184000000001 69.4184 641.7 65 641.7 c 60.5816 641.7 57 638.1184000000001 57 633.7 c 57 629.2816 60.5816 625.7 65 625.7 c 69.4184 625.7 73 629.2816 73 633.7 c f Q
+BT 1 1 1 rg /F2 9.5 Tf 62.4 629.9 Td (2) Tj ET
+BT 0.18 0.23 0.23 rg /F2 10 Tf 80.0 630.5 Td (Read the status line \(top of the results panel\)) Tj ET
+q 0.37 0.48 0.53 rg 58 600.0 479 24 re f Q
+BT 1 1 1 rg /F2 9.3 Tf 66.0 608.0 Td (Status line) Tj ET
+BT 1 1 1 rg /F2 9.3 Tf 236.0 608.0 Td (Meaning) Tj ET
+q 0.975 0.96 0.93 rg 58 578.5 479 21.5 re f Q
+q 0.87 0.85 0.8 RG 0.5 w 58 578.5 m 537 578.5 l S Q
+BT 0.18 0.23 0.23 rg /F2 9.3 Tf 66.0 585.0 Td (connected - live Earth Engine) Tj ET
+BT 0.3 0.35 0.35 rg /F1 9.3 Tf 236.0 585.0 Td (Ready. Analyses will use real satellite data.) Tj ET
+q 0.87 0.85 0.8 RG 0.5 w 58 544.5 m 537 544.5 l S Q
+BT 0.18 0.23 0.23 rg /F2 9.3 Tf 66.0 563.5 Td (connected - MOCK mode) Tj ET
+BT 0.3 0.35 0.35 rg /F1 9.3 Tf 236.0 563.5 Td (Works, but figures are placeholders. Earth Engine is not authenticated) Tj ET
+BT 0.3 0.35 0.35 rg /F1 9.3 Tf 236.0 551.0 Td (- run 'earthengine authenticate' and restart.) Tj ET
+q 0.975 0.96 0.93 rg 58 510.5 479 34.0 re f Q
+q 0.87 0.85 0.8 RG 0.5 w 58 510.5 m 537 510.5 l S Q
+BT 0.18 0.23 0.23 rg /F2 9.3 Tf 66.0 529.5 Td (unreachable) Tj ET
+BT 0.3 0.35 0.35 rg /F1 9.3 Tf 236.0 529.5 Td (The page was opened as a local file. Start the backend with 'python) Tj ET
+BT 0.3 0.35 0.35 rg /F1 9.3 Tf 236.0 517.0 Td (run.py' and open http://localhost:8000/toolkit.html.) Tj ET
+q 0.87 0.85 0.8 RG 0.6 w 58 42 m 537 42 l S Q
+BT 0.45 0.45 0.42 rg /F1 8 Tf 58.0 30.0 Td (DeltaSAT Toolkit - User Manual) Tj ET
+BT 0.45 0.45 0.42 rg /F1 8 Tf 511.6 30.0 Td (Page 3) Tj ET
+endstream
+endobj
+12 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 13 0 R >>
+endobj
+13 0 obj
+<< /Length 3513 >>
+stream
+q 0.37 0.48 0.53 rg 0 808 595 34 re f Q
+BT 1 1 1 rg /F2 11 Tf 58.0 820.0 Td (DeltaSAT Toolkit) Tj ET
+BT 0.96 0.94 0.9 rg /F1 9 Tf 486.0 821.0 Td (User Manual) Tj ET
+q 0.37 0.48 0.53 rg 62 759 m 74 759 l 76.2092 759 78 760.7908 78 763 c 78 775 l 78 777.2092 76.2092 779 74 779 c 62 779 l 59.7908 779 58 777.2092 58 775 c 58 763 l 58 760.7908 59.7908 759 62 759 c h f Q
+BT 1 1 1 rg /F2 11 Tf 64.9 764.0 Td (5) Tj ET
+BT 0.18 0.23 0.23 rg /F2 14.5 Tf 88.0 763.0 Td (Run an analysis) Tj ET
+q 0.76 0.68 0.57 RG 1.1 w 58 754 m 537 754 l S Q
+q 0.37 0.48 0.53 rg 73 737.2 m 73 741.6184000000001 69.4184 745.2 65 745.2 c 60.5816 745.2 57 741.6184000000001 57 737.2 c 57 732.7816 60.5816 729.2 65 729.2 c 69.4184 729.2 73 732.7816 73 737.2 c f Q
+BT 1 1 1 rg /F2 9.5 Tf 62.4 733.4 Td (1) Tj ET
+BT 0.18 0.23 0.23 rg /F2 10 Tf 80.0 734.0 Td (Draw the region) Tj ET
+BT 0.33 0.38 0.38 rg /F1 10 Tf 80.0 720.5 Td (Click 'Draw ROI' and drag a rectangle on the satellite map. Keep it modest \(10-30 km across\); large) Tj ET
+BT 0.33 0.38 0.38 rg /F1 10 Tf 80.0 707.0 Td (regions take much longer.) Tj ET
+q 0.37 0.48 0.53 rg 73 693.7 m 73 698.1184000000001 69.4184 701.7 65 701.7 c 60.5816 701.7 57 698.1184000000001 57 693.7 c 57 689.2816 60.5816 685.7 65 685.7 c 69.4184 685.7 73 689.2816 73 693.7 c f Q
+BT 1 1 1 rg /F2 9.5 Tf 62.4 689.9 Td (2) Tj ET
+BT 0.18 0.23 0.23 rg /F2 10 Tf 80.0 690.5 Td (Set the period) Tj ET
+BT 0.33 0.38 0.38 rg /F1 10 Tf 80.0 677.0 Td (Start/end year \(Landsat 5: 1984-2012, Landsat 8: 2013 onward\) and the maximum cloud cover \(20% is) Tj ET
+BT 0.33 0.38 0.38 rg /F1 10 Tf 80.0 663.5 Td (a good default\).) Tj ET
+q 0.37 0.48 0.53 rg 73 650.2 m 73 654.6184000000001 69.4184 658.2 65 658.2 c 60.5816 658.2 57 654.6184000000001 57 650.2 c 57 645.7816 60.5816 642.2 65 642.2 c 69.4184 642.2 73 645.7816 73 650.2 c f Q
+BT 1 1 1 rg /F2 9.5 Tf 62.4 646.4 Td (3) Tj ET
+BT 0.18 0.23 0.23 rg /F2 10 Tf 80.0 647.0 Td (Press 'Run analysis') Tj ET
+q 0.37 0.48 0.53 rg 73 633.7 m 73 638.1184000000001 69.4184 641.7 65 641.7 c 60.5816 641.7 57 638.1184000000001 57 633.7 c 57 629.2816 60.5816 625.7 65 625.7 c 69.4184 625.7 73 629.2816 73 633.7 c f Q
+BT 1 1 1 rg /F2 9.5 Tf 62.4 629.9 Td (4) Tj ET
+BT 0.18 0.23 0.23 rg /F2 10 Tf 80.0 630.5 Td (Watch the progress) Tj ET
+BT 0.33 0.38 0.38 rg /F1 10 Tf 80.0 617.0 Td (The status line shows 'Submitting...', then the backend log lists each step \(Landsat export, intertidal) Tj ET
+BT 0.33 0.38 0.38 rg /F1 10 Tf 80.0 603.5 Td (detection, tidal datums, elevation\).) Tj ET
+q 0.37 0.48 0.53 rg 73 590.2 m 73 594.6184000000001 69.4184 598.2 65 598.2 c 60.5816 598.2 57 594.6184000000001 57 590.2 c 57 585.7816 60.5816 582.2 65 582.2 c 69.4184 582.2 73 585.7816 73 590.2 c f Q
+BT 1 1 1 rg /F2 9.5 Tf 62.4 586.4 Td (5) Tj ET
+BT 0.18 0.23 0.23 rg /F2 10 Tf 80.0 587.0 Td (Read the results) Tj ET
+BT 0.33 0.38 0.38 rg /F1 10 Tf 80.0 573.5 Td (The output figure appears in the panel; the backend log underneath explains everything that was) Tj ET
+BT 0.33 0.38 0.38 rg /F1 10 Tf 80.0 560.0 Td (computed - or skipped, and why.) Tj ET
+BT 0.18 0.23 0.23 rg /F1 10 Tf 58.0 543.5 Td (Gauge stations of the hydro database appear on the map automatically. Stations inside your box are) Tj ET
+BT 0.18 0.23 0.23 rg /F1 10 Tf 58.0 530.0 Td (highlighted - their records feed the elevation step.) Tj ET
+q 0.87 0.85 0.8 RG 0.6 w 58 42 m 537 42 l S Q
+BT 0.45 0.45 0.42 rg /F1 8 Tf 58.0 30.0 Td (DeltaSAT Toolkit - User Manual) Tj ET
+BT 0.45 0.45 0.42 rg /F1 8 Tf 511.6 30.0 Td (Page 4) Tj ET
+endstream
+endobj
+14 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 15 0 R >>
+endobj
+15 0 obj
+<< /Length 3194 >>
+stream
+q 0.37 0.48 0.53 rg 0 808 595 34 re f Q
+BT 1 1 1 rg /F2 11 Tf 58.0 820.0 Td (DeltaSAT Toolkit) Tj ET
+BT 0.96 0.94 0.9 rg /F1 9 Tf 486.0 821.0 Td (User Manual) Tj ET
+q 0.37 0.48 0.53 rg 62 759 m 74 759 l 76.2092 759 78 760.7908 78 763 c 78 775 l 78 777.2092 76.2092 779 74 779 c 62 779 l 59.7908 779 58 777.2092 58 775 c 58 763 l 58 760.7908 59.7908 759 62 759 c h f Q
+BT 1 1 1 rg /F2 11 Tf 64.9 764.0 Td (6) Tj ET
+BT 0.18 0.23 0.23 rg /F2 14.5 Tf 88.0 763.0 Td (Reading the results) Tj ET
+q 0.76 0.68 0.57 RG 1.1 w 58 754 m 537 754 l S Q
+q 0.37 0.48 0.53 rg 58 720 479 24 re f Q
+BT 1 1 1 rg /F2 9.3 Tf 66.0 728.0 Td (Output) Tj ET
+BT 1 1 1 rg /F2 9.3 Tf 196.0 728.0 Td (What it shows) Tj ET
+q 0.975 0.96 0.93 rg 58 698.5 479 21.5 re f Q
+q 0.87 0.85 0.8 RG 0.5 w 58 698.5 m 537 698.5 l S Q
+BT 0.18 0.23 0.23 rg /F2 9.3 Tf 66.0 705.0 Td (Intertidal extent) Tj ET
+BT 0.3 0.35 0.35 rg /F1 9.3 Tf 196.0 705.0 Td (Where intertidal flats existed, year by year.) Tj ET
+q 0.87 0.85 0.8 RG 0.5 w 58 677.0 m 537 677.0 l S Q
+BT 0.18 0.23 0.23 rg /F2 9.3 Tf 66.0 683.5 Td (Lifespan) Tj ET
+BT 0.3 0.35 0.35 rg /F1 9.3 Tf 196.0 683.5 Td (How many years each intertidal patch survived \(transition-matrix\).) Tj ET
+q 0.975 0.96 0.93 rg 58 643.0 479 34.0 re f Q
+q 0.87 0.85 0.8 RG 0.5 w 58 643.0 m 537 643.0 l S Q
+BT 0.18 0.23 0.23 rg /F2 9.3 Tf 66.0 662.0 Td (Elevation) Tj ET
+BT 0.3 0.35 0.35 rg /F1 9.3 Tf 196.0 662.0 Td (Relative height \(m\) of the intertidal surface, derived from water lines and gauge) Tj ET
+BT 0.3 0.35 0.35 rg /F1 9.3 Tf 196.0 649.5 Td (tidal datums \(MHSW/MLSW\).) Tj ET
+q 0.87 0.85 0.8 RG 0.5 w 58 621.5 m 537 621.5 l S Q
+BT 0.18 0.23 0.23 rg /F2 9.3 Tf 66.0 628.0 Td (Backend log) Tj ET
+BT 0.3 0.35 0.35 rg /F1 9.3 Tf 196.0 628.0 Td (Every processing step with its status. Skipped steps state the reason here.) Tj ET
+q 0.37 0.48 0.53 rg 62 598.5 m 74 598.5 l 76.2092 598.5 78 600.2908 78 602.5 c 78 614.5 l 78 616.7092 76.2092 618.5 74 618.5 c 62 618.5 l 59.7908 618.5 58 616.7092 58 614.5 c 58 602.5 l 58 600.2908 59.7908 598.5 62 598.5 c h f Q
+BT 1 1 1 rg /F2 11 Tf 64.9 603.5 Td (7) Tj ET
+BT 0.18 0.23 0.23 rg /F2 14.5 Tf 88.0 602.5 Td (Modes) Tj ET
+q 0.76 0.68 0.57 RG 1.1 w 58 593.5 m 537 593.5 l S Q
+BT 0.18 0.23 0.23 rg /F1 10 Tf 58.0 573.5 Td (By default the toolkit picks its mode automatically: it uses live Earth Engine when you are authenticated, and) Tj ET
+BT 0.18 0.23 0.23 rg /F1 10 Tf 58.0 560.0 Td (falls back to MOCK placeholders otherwise. You can force either:) Tj ET
+q 0.96 0.94 0.9 rg 0.87 0.85 0.8 RG 0.8 w 64 506.5 m 531 506.5 l 534.3138 506.5 537 509.1862 537 512.5 c 537 547.5 l 537 550.8138 534.3138 553.5 531 553.5 c 64 553.5 l 60.6862 553.5 58 550.8138 58 547.5 c 58 512.5 l 58 509.1862 60.6862 506.5 64 506.5 c h B Q
+BT 0.18 0.23 0.23 rg /F3 9.5 Tf 71.0 533.5 Td (MOCK_MODE=1 python run.py                 # placeholders, no GEE needed) Tj ET
+BT 0.18 0.23 0.23 rg /F3 9.5 Tf 71.0 519.0 Td (MOCK_MODE=0 EE_PROJECT="my-project" python run.py   # force live GEE) Tj ET
+q 0.87 0.85 0.8 RG 0.6 w 58 42 m 537 42 l S Q
+BT 0.45 0.45 0.42 rg /F1 8 Tf 58.0 30.0 Td (DeltaSAT Toolkit - User Manual) Tj ET
+BT 0.45 0.45 0.42 rg /F1 8 Tf 511.6 30.0 Td (Page 5) Tj ET
+endstream
+endobj
+16 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 17 0 R >>
+endobj
+17 0 obj
+<< /Length 4985 >>
+stream
+q 0.37 0.48 0.53 rg 0 808 595 34 re f Q
+BT 1 1 1 rg /F2 11 Tf 58.0 820.0 Td (DeltaSAT Toolkit) Tj ET
+BT 0.96 0.94 0.9 rg /F1 9 Tf 486.0 821.0 Td (User Manual) Tj ET
+q 0.37 0.48 0.53 rg 62 759 m 74 759 l 76.2092 759 78 760.7908 78 763 c 78 775 l 78 777.2092 76.2092 779 74 779 c 62 779 l 59.7908 779 58 777.2092 58 775 c 58 763 l 58 760.7908 59.7908 759 62 759 c h f Q
+BT 1 1 1 rg /F2 11 Tf 64.9 764.0 Td (8) Tj ET
+BT 0.18 0.23 0.23 rg /F2 14.5 Tf 88.0 763.0 Td (Troubleshooting) Tj ET
+q 0.76 0.68 0.57 RG 1.1 w 58 754 m 537 754 l S Q
+q 0.37 0.48 0.53 rg 58 720 479 24 re f Q
+BT 1 1 1 rg /F2 9.3 Tf 66.0 728.0 Td (Symptom) Tj ET
+BT 1 1 1 rg /F2 9.3 Tf 234.0 728.0 Td (Fix) Tj ET
+q 0.975 0.96 0.93 rg 58 686.0 479 34.0 re f Q
+q 0.87 0.85 0.8 RG 0.5 w 58 686.0 m 537 686.0 l S Q
+BT 0.18 0.23 0.23 rg /F2 9.3 Tf 66.0 705.0 Td (Status: unreachable) Tj ET
+BT 0.3 0.35 0.35 rg /F1 9.3 Tf 234.0 705.0 Td (Open the page via http://localhost:8000/toolkit.html, never as a local) Tj ET
+BT 0.3 0.35 0.35 rg /F1 9.3 Tf 234.0 692.5 Td (file. Start the backend with 'python run.py'.) Tj ET
+q 0.87 0.85 0.8 RG 0.5 w 58 652.0 m 537 652.0 l S Q
+BT 0.18 0.23 0.23 rg /F2 9.3 Tf 66.0 671.0 Td (Status: MOCK mode) Tj ET
+BT 0.3 0.35 0.35 rg /F1 9.3 Tf 234.0 671.0 Td (Earth Engine is not authenticated. Run 'earthengine authenticate', then) Tj ET
+BT 0.3 0.35 0.35 rg /F1 9.3 Tf 234.0 658.5 Td (restart 'python run.py'.) Tj ET
+q 0.975 0.96 0.93 rg 58 618.0 479 34.0 re f Q
+q 0.87 0.85 0.8 RG 0.5 w 58 618.0 m 537 618.0 l S Q
+BT 0.18 0.23 0.23 rg /F2 9.3 Tf 66.0 637.0 Td (Log: gbm-toolkit not importable) Tj ET
+BT 0.3 0.35 0.35 rg /F1 9.3 Tf 234.0 637.0 Td (Place the gbm-toolkit folder next to demo/, or run 'pip install -e) Tj ET
+BT 0.3 0.35 0.35 rg /F1 9.3 Tf 234.0 624.5 Td (/path/to/gbm-toolkit'.) Tj ET
+q 0.87 0.85 0.8 RG 0.5 w 58 584.0 m 537 584.0 l S Q
+BT 0.18 0.23 0.23 rg /F2 9.3 Tf 66.0 603.0 Td (Log: elevation skipped - no station) Tj ET
+BT 0.18 0.23 0.23 rg /F2 9.3 Tf 66.0 590.5 Td (near the ROI) Tj ET
+BT 0.3 0.35 0.35 rg /F1 9.3 Tf 234.0 603.0 Td (Draw the box closer to the Meghna estuary, near the highlighted gauge) Tj ET
+BT 0.3 0.35 0.35 rg /F1 9.3 Tf 234.0 590.5 Td (markers on the map.) Tj ET
+q 0.975 0.96 0.93 rg 58 550.0 479 34.0 re f Q
+q 0.87 0.85 0.8 RG 0.5 w 58 550.0 m 537 550.0 l S Q
+BT 0.18 0.23 0.23 rg /F2 9.3 Tf 66.0 569.0 Td (Results empty / job shows error) Tj ET
+BT 0.3 0.35 0.35 rg /F1 9.3 Tf 234.0 569.0 Td (Read the backend log under the figure. The first Landsat export for a) Tj ET
+BT 0.3 0.35 0.35 rg /F1 9.3 Tf 234.0 556.5 Td (large region can take minutes - wait and try a smaller box.) Tj ET
+q 0.87 0.85 0.8 RG 0.5 w 58 528.5 m 537 528.5 l S Q
+BT 0.18 0.23 0.23 rg /F2 9.3 Tf 66.0 535.0 Td (Map is grey) Tj ET
+BT 0.3 0.35 0.35 rg /F1 9.3 Tf 234.0 535.0 Td (The Esri satellite tiles need internet access. Check your connection.) Tj ET
+q 0.37 0.48 0.53 rg 62 505.5 m 74 505.5 l 76.2092 505.5 78 507.2908 78 509.5 c 78 521.5 l 78 523.7092 76.2092 525.5 74 525.5 c 62 525.5 l 59.7908 525.5 58 523.7092 58 521.5 c 58 509.5 l 58 507.2908 59.7908 505.5 62 505.5 c h f Q
+BT 1 1 1 rg /F2 11 Tf 64.9 510.5 Td (9) Tj ET
+BT 0.18 0.23 0.23 rg /F2 14.5 Tf 88.0 509.5 Td (Tips) Tj ET
+q 0.76 0.68 0.57 RG 1.1 w 58 500.5 m 537 500.5 l S Q
+q 0.62 0.35 0.25 rg 66.8 483.9 m 66.8 484.89414 65.99414 485.7 65 485.7 c 64.00586 485.7 63.2 484.89414 63.2 483.9 c 63.2 482.90585999999996 64.00586 482.09999999999997 65 482.09999999999997 c 65.99414 482.09999999999997 66.8 482.90585999999996 66.8 483.9 c f Q
+BT 0.18 0.23 0.23 rg /F1 10 Tf 76.0 480.5 Td (Start small: a 10 x 10 km box and 2-3 years. Scale up once it works.) Tj ET
+q 0.62 0.35 0.25 rg 66.8 468.9 m 66.8 469.89414 65.99414 470.7 65 470.7 c 64.00586 470.7 63.2 469.89414 63.2 468.9 c 63.2 467.90585999999996 64.00586 467.09999999999997 65 467.09999999999997 c 65.99414 467.09999999999997 66.8 467.90585999999996 66.8 468.9 c f Q
+BT 0.18 0.23 0.23 rg /F1 10 Tf 76.0 465.5 Td (Repeat runs are faster - gauge records are cached after the first download.) Tj ET
+q 0.62 0.35 0.25 rg 66.8 453.9 m 66.8 454.89414 65.99414 455.7 65 455.7 c 64.00586 455.7 63.2 454.89414 63.2 453.9 c 63.2 452.90585999999996 64.00586 452.09999999999997 65 452.09999999999997 c 65.99414 452.09999999999997 66.8 452.90585999999996 66.8 453.9 c f Q
+BT 0.18 0.23 0.23 rg /F1 10 Tf 76.0 450.5 Td (The same server also serves the home page: http://localhost:8000/) Tj ET
+q 0.62 0.35 0.25 rg 66.8 438.9 m 66.8 439.89414 65.99414 440.7 65 440.7 c 64.00586 440.7 63.2 439.89414 63.2 438.9 c 63.2 437.90585999999996 64.00586 437.09999999999997 65 437.09999999999997 c 65.99414 437.09999999999997 66.8 437.90585999999996 66.8 438.9 c f Q
+BT 0.18 0.23 0.23 rg /F1 10 Tf 76.0 435.5 Td (Anything unclear? The backend log always states exactly what the toolkit is doing.) Tj ET
+q 0.87 0.85 0.8 RG 0.6 w 58 42 m 537 42 l S Q
+BT 0.45 0.45 0.42 rg /F1 8 Tf 58.0 30.0 Td (DeltaSAT Toolkit - User Manual) Tj ET
+BT 0.45 0.45 0.42 rg /F1 8 Tf 511.6 30.0 Td (Page 6) Tj ET
+endstream
+endobj
+xref
+0 18
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000154 00000 n 
+0000000224 00000 n 
+0000000299 00000 n 
+0000000367 00000 n 
+0000000513 00000 n 
+0000004286 00000 n 
+0000004432 00000 n 
+0000007577 00000 n 
+0000007725 00000 n 
+0000011017 00000 n 
+0000011165 00000 n 
+0000014731 00000 n 
+0000014879 00000 n 
+0000018126 00000 n 
+0000018274 00000 n 
+trailer
+<< /Size 18 /Root 1 0 R >>
+startxref
+23312
+%%EOF
