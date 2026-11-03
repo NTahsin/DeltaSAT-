@@ -10,9 +10,24 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css">
 <style>
+  /* fallback base (mirrors theme.css) so the page also renders standalone */
+  :root{--river:#8FA2AB;--river-deep:#5F7B86;--river-pale:#C7D2D7;--sand:#D6C5B1;--sand-deep:#C2AE92;--cream:#F5F0E6;--sage:#9CAB8A;--sage-deep:#75895C;--terracotta:#9E5A41;--ink:#2F3B3A;--ink-soft:#5C6664;--line:#E7E2D7;--white:#fff;--shadow:0 1px 2px rgba(47,59,58,.05),0 10px 30px -12px rgba(47,59,58,.18)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:"Open Sans",sans-serif;color:var(--ink);background:var(--white);line-height:1.68}
+  h1,h2,h3,h4,.brand,.btn,.chip{font-family:"Roboto",sans-serif}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1140px;margin:0 auto;padding:0 28px}
+  header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  nav{display:flex;align-items:center;justify-content:space-between;height:66px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:1.12rem;letter-spacing:-.01em}
+  .navlinks{display:flex;gap:30px;align-items:center;font-size:.92rem;font-weight:500}
+  .navlinks a{color:var(--ink-soft)}
+  .navlinks a:hover{color:var(--ink)}
+  .btn{display:inline-flex;align-items:center;gap:7px;font-weight:600;font-size:.9rem;padding:10px 18px;border-radius:8px;background:var(--river-deep);color:#fff;border:none;cursor:pointer}
+  .btn:hover{background:#54707b}
+  /* page layout */
   body{overflow:hidden}
   .app{display:grid;grid-template-columns:360px 1fr;height:calc(100vh - 66px)}
-  /* control rail */
   .rail{border-right:1px solid var(--line);overflow-y:auto;background:#fff;padding:20px 20px 60px}
   .rail::-webkit-scrollbar{width:9px}.rail::-webkit-scrollbar-thumb{background:#e0dacd;border-radius:6px}
   .grp{margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--line)}
@@ -30,15 +45,15 @@
   .toggle-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
   .readout{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.78rem;background:var(--cream);border:1px solid #e6ddc9;border-radius:8px;padding:10px 12px;color:var(--ink);line-height:1.7;white-space:pre-wrap;word-break:break-word}
   .muted{color:var(--ink-soft);font-size:.82rem;line-height:1.55}
-  /* analysis card (single, always on) */
-  .acard{border:1px solid var(--river-deep);border-radius:10px;padding:14px;background:#f4f8f9;box-shadow:inset 3px 0 0 var(--river-deep)}
-  .acard h4{font-family:"Roboto",sans-serif;font-size:.95rem;font-weight:600;margin-bottom:4px;display:flex;align-items:center;gap:8px}
-  .acard p{font-size:.8rem;color:var(--ink-soft);line-height:1.5}
+  .mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.92em}
+  /* analysis cards */
+  .acard{border:1px solid var(--river-deep);border-radius:10px;padding:14px;background:#f4f8f9;box-shadow:inset 3px 0 0 var(--river-deep);margin-bottom:12px}
+  .acard h4{font-family:"Roboto",sans-serif;font-size:.92rem;font-weight:600;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+  .acard p{font-size:.78rem;color:var(--ink-soft);line-height:1.5;margin-bottom:8px}
   .acard .chip{font-size:.68rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#fff;background:var(--sage-deep);border-radius:6px;padding:3px 8px}
-  .check{width:18px;height:18px;border-radius:5px;background:var(--river-deep);border-color:var(--river-deep);flex:none;display:grid;place-items:center;color:#fff;font-size:.7rem}
   /* stage / map / results */
   .stage{display:flex;flex-direction:column;min-width:0}
-  #map{height:68%;min-height:420px;background:var(--river-pale);z-index:1}
+  #map{height:62%;min-height:400px;background:var(--river-pale);z-index:1}
   .maptools{position:absolute;z-index:600;top:12px;left:50px;display:flex;gap:8px;background:rgba(255,255,255,.92);backdrop-filter:blur(6px);padding:6px;border-radius:9px;box-shadow:var(--shadow)}
   .results{flex:1;overflow-y:auto;border-top:1px solid var(--line);background:#FBFAF6;padding:18px 22px}
   .resbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:14px;flex-wrap:wrap}
@@ -52,6 +67,18 @@
   .status.ok{border-color:var(--sage-deep);background:#eef3e7}
   .backbar{background:#fbf2ee;border:1px solid #ecd9d0;color:#8a4f3a;font-size:.8rem;padding:8px 14px;border-radius:8px;margin-bottom:14px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
   .map-cap{padding:6px 10px;font-size:.72rem;color:#9c8a6c;background:var(--cream);border-bottom:1px solid var(--line)}
+  /* result figures */
+  .figwrap{margin-bottom:18px}
+  .fighead{font-family:"Roboto",sans-serif;font-size:.84rem;font-weight:600;color:var(--ink-soft);margin-bottom:5px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .chipfig{font-size:.64rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#fff;background:var(--sage-deep);border-radius:5px;padding:2px 7px}
+  .chipfig.graph{background:var(--terracotta)}
+  .figwrap img{width:100%;border-radius:12px;border:1px solid var(--line);background:var(--cream)}
+  .dlinks{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+  .dlinks a{font-size:.78rem;background:var(--cream);border:1px solid var(--line);padding:5px 10px;border-radius:7px;color:var(--ink)}
+  .dlinks a:hover{border-color:var(--river-deep)}
+  details.logbox{margin-top:12px}
+  details.logbox summary{cursor:pointer;font-size:.82rem;color:var(--ink-soft)}
+  details.logbox pre{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.74rem;background:var(--cream);border:1px solid #e6ddc9;border-radius:8px;padding:10px 12px;white-space:pre-wrap;margin-top:8px}
   @media(max-width:900px){body{overflow:auto}.app{grid-template-columns:1fr;height:auto}.rail{border-right:none;border-bottom:1px solid var(--line)}#map{height:70vh}}
 </style>
 </head>
@@ -75,14 +102,14 @@
   <aside class="rail">
 
     <div class="grp">
-      <h3><span class="num">1</span> Region of interest</h3>
-      <p class="muted">Basemap: Esri World Imagery (satellite).</p>
+      <h3><span class="num">1</span> Region of interest <span class="chipfig" style="background:var(--sand-deep)">optional</span></h3>
+      <p class="muted">Basemap: Esri World Imagery (satellite). Draw an ROI to crop the result figures to your area — analyses run on the full GeoTIFFs either way.</p>
       <div class="toggle-row" style="margin-top:10px">
         <span class="btn sm" onclick="startDraw()">▢ Draw ROI</span>
         <span class="btn sm sec" onclick="clearROI()">Clear</span>
       </div>
       <label class="fld">Bounding box (WGS84)</label>
-      <div class="readout" id="bbox">Draw a rectangle on the map to set the ROI.</div>
+      <div class="readout" id="bbox">Optional — draw a rectangle to crop the result figures.</div>
 
       <label class="fld">Output CRS — reprojection</label>
       <select id="crs" onchange="reproject()">
@@ -96,40 +123,75 @@
     </div>
 
     <div class="grp">
-      <h3><span class="num">2</span> Imagery &amp; period</h3>
-      <p class="muted">Landsat 5 / 8 surface reflectance, fetched through the <b>Google Earth Engine Python API</b> — the backend imports and initialises it automatically when the analysis runs. No uploads.</p>
+      <h3><span class="num">2</span> Water index &amp; period</h3>
+      <p class="muted">Water-index GeoTIFFs are provided in the GitHub database — pick which index the land–water classification runs on.</p>
+      <label class="fld">Water index</label>
+      <select id="index">
+        <option value="mndwi">MNDWI — geotiffs/00_MNDWI</option>
+        <option value="fused">Adapted index (MNDWI + AWEI)/2 — geotiffs/01_Fused index</option>
+      </select>
+      <label class="fld">Classification threshold</label>
+      <select id="threshold">
+        <option value="otsu">Otsu — automatic, per scene</option>
+        <option value="0">Index zero — fixed</option>
+      </select>
       <div class="row2" style="margin-top:12px">
-        <div><label class="fld">Start year</label><input type="number" id="y0" value="2015" min="1984" max="2026"></div>
-        <div><label class="fld">End year</label><input type="number" id="y1" value="2024" min="1984" max="2026"></div>
+        <div><label class="fld">Start year</label><input type="number" id="y0" value="1996" min="1984" max="2026"></div>
+        <div><label class="fld">End year</label><input type="number" id="y1" value="2026" min="1984" max="2026"></div>
       </div>
-      <label class="fld">Max cloud cover (%)</label>
-      <input type="number" id="cloud" value="20" min="0" max="100">
+      <div class="row2">
+        <div><label class="fld">Min scenes / year</label><input type="number" id="minscenes" value="2" min="1" max="60"></div>
+        <div><label class="fld">Pixel size (m)</label><input type="number" id="pxm" value="30" min="1"></div>
+      </div>
+      <div class="row2">
+        <div><label class="fld">Min channel blob (px)</label><input type="number" id="mincomp" value="56" min="1"></div>
+        <div><label class="fld">Elongation</label><input type="number" id="elong" value="20" step="0.5"></div>
+      </div>
     </div>
 
     <div class="grp">
-      <h3><span class="num">3</span> Analysis</h3>
+      <h3><span class="num">3</span> Analyses</h3>
+
       <div class="acard">
-        <h4><span class="check">✓</span> Intertidal extent &amp; elevation</h4>
-        <p>Yearly lateral extent, transition-matrix lifespan and relative elevation of the intertidal area — computed with the <b>gbm_delta</b> toolkit modules (IntertidalDetector · LifespanCalculator · RiverSurfaceProfiler · IntertidalElevationProcessor · IntertidalLifespanAnalyser).</p>
-        <p style="margin-top:8px"><span class="chip">only analysis · runs automatically</span></p>
+        <h4>1 · Land–water classification</h4>
+        <p>Binary land/water masks from the chosen index GeoTIFFs — Otsu thresholding via <span class="mono">gbm_delta.extraction.index_quality</span>.</p>
+        <span class="btn sm full" id="btn-classify" onclick="submit(['classify'])">Run classification</span>
       </div>
+
+      <div class="acard">
+        <h4>2 · Clean land–water → river channels</h4>
+        <p>Remove ponds, aquaculture and noise from the land–water images, keeping clean channel-like water — <span class="mono">gbm_delta.extraction.river_mask.RiverFromGeotiff</span>.</p>
+        <span class="btn sm full" id="btn-clean" onclick="submit(['clean'])">Run cleaning</span>
+      </div>
+
+      <div class="acard">
+        <h4>3 · Intertidal extent (area)</h4>
+        <p>Yearly land / river / intertidal classification with area statistics — <span class="mono">gbm_delta.extraction.intertidal_detector</span>. Results as <span class="chip">map</span> <span class="chip">+ time series</span>.</p>
+        <span class="btn sm full" id="btn-intertidal" onclick="submit(['intertidal'])">Run intertidal extent</span>
+      </div>
+
+      <div class="acard">
+        <h4>4 · Lifespan analysis</h4>
+        <p>Year-interval transition matrices and Markov lifespans of the intertidal class — <span class="mono">gbm_delta.morphodynamics.lifespan_legacy</span>. Results as <span class="chip">map</span> <span class="chip">+ time series</span>.</p>
+        <span class="btn sm full" id="btn-lifespan" onclick="submit(['lifespan'])">Run lifespan analysis</span>
+      </div>
+
+      <span class="btn full" id="btn-chain" onclick="submit(['classify','clean','intertidal','lifespan'])">Run full chain →</span>
     </div>
 
     <div class="grp">
       <h3><span class="num">4</span> Data sources <span class="chip" style="font-size:.66rem;background:var(--river-deep)">automatic</span></h3>
-      <p class="muted">Nothing to upload. The backend fetches everything by itself:</p>
-      <div class="readout" style="margin-top:8px">Landsat 5/8 imagery
-  ← Google Earth Engine Python API
-    (auto-imported at run time)</div>
+      <p class="muted">Nothing to upload — no Google Earth Engine. Everything is fetched from your GitHub database and cached:</p>
+      <div class="readout" style="margin-top:8px">Water-index &amp; land/water GeoTIFFs
+  ← NTahsin/Ganges-Brahmaputra-
+    Meghna-Hydro-morpho
+    ("geotiffs" folder — demo/geodata.py)</div>
       <div class="readout" style="margin-top:8px">Water levels (10 stations, hourly)
-  ← github.com/NTahsin/
-    Ganges-Brahmaputra-Meghna-Hydro-morpho
-    (“meghna estuary” folder)</div>
-      <p class="muted" style="margin-top:10px">Gauge stations near your ROI are plotted on the map once you connect the backend; their records feed the tidal-datums and elevation steps.</p>
+    + stations.csv
+  ← same repository
+    ("meghna estuary" folder — demo/hydro.py)</div>
+      <p class="muted" style="margin-top:10px">Gauge stations are plotted on the map automatically once the backend is up.</p>
     </div>
-
-    <span class="btn full" id="runbtn" onclick="runAll()" style="opacity:.5;pointer-events:none">Run analysis →</span>
-    <p class="muted" style="margin-top:8px;text-align:center">Draw an ROI to run the intertidal analysis.</p>
   </aside>
 
   <!-- ===== STAGE ===== -->
@@ -138,15 +200,14 @@
       <div class="maptools">
         <span class="btn sm" onclick="startDraw()">▢ Draw ROI</span>
         <span class="btn sm sec" onclick="clearROI()">Clear</span>
-        <span class="btn sm" onclick="previewLayers()" style="background:var(--sage-deep)">◐ Preview layers</span>
       </div>
       <div id="map"></div>
     </div>
-    <div class="map-cap">Esri satellite basemap · pan/zoom to the Meghna estuary, then Draw ROI. GBM hydro-database gauges inside the box feed the elevation analysis.</div>
+    <div class="map-cap">Esri satellite basemap · analyses run on the GeoTIFFs of the GitHub database (no Google Earth Engine) · result maps are auto-overlaid on the map · draw an optional ROI to crop the result figures.</div>
 
     <div class="results">
       <div class="backbar">⚙ Backend status: <b id="apistat">connecting…</b>
-        <span style="opacity:.85">— this page is served by the analysis backend itself: start it with <code>python run.py</code> and open <code>http://localhost:8000/toolkit.html</code>.</span>
+        <span style="opacity:.85">— this page is served by the analysis backend itself: start it with <code>python run.py</code> and open <code>http://localhost:8000/toolkit.html</code>. Imagery and water levels come from your GitHub database.</span>
       </div>
       <div class="resbar"><h2>Results</h2><span class="muted" id="jobmeta">No job submitted.</span></div>
       <div class="tabs" id="tabs"></div>
@@ -160,10 +221,17 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.11.0/proj4.js"></script>
 <script>
 /* ---------- state ---------- */
-const S = {roi:null, sensors:['landsat'], analyses:['intertidal'],
-           stations:[], stationLayer:null, previewLayers:[], apiOK:false};
+const S = {roi:null, analyses:[], stations:[], stationLayer:null,
+           overlays:{}, layerCtrl:null, apiOK:false, busy:false};
 
-/* ---------- map (Esri satellite basemap, larger height) ---------- */
+const META = {
+  classify:   ['Land–water classification', 'Otsu thresholding of the chosen water-index GeoTIFFs (gbm_delta.extraction.index_quality)'],
+  clean:      ['Clean land–water → river channels', 'RiverFromGeotiff — ponds & noise removed, channel-like water kept'],
+  intertidal: ['Intertidal extent (area)', 'IntertidalDetector — yearly land / river / intertidal maps + area time series'],
+  lifespan:   ['Lifespan analysis', 'LifespanCalculator — transition matrices & Markov lifespans, map + time series']
+};
+
+/* ---------- map (Esri satellite basemap) ---------- */
 const ESRI = ['https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
               'Esri, Maxar, Earthstar Geographics'];
 let map, base, drawn = new L.FeatureGroup(), drawer;
@@ -171,10 +239,11 @@ function initMap(){
   map = L.map('map',{zoomControl:true}).setView([22.6,90.5],9); // Meghna estuary default
   base = L.tileLayer(ESRI[0],{maxZoom:18,attribution:ESRI[1]}).addTo(map);
   map.addLayer(drawn);
+  S.layerCtrl = L.control.layers({'Esri satellite': base}, {}).addTo(map);
   map.on(L.Draw.Event.CREATED, e=>{ drawn.clearLayers(); drawn.addLayer(e.layer); setROI(e.layer.getBounds()); });
 }
 function startDraw(){ drawer = new L.Draw.Rectangle(map,{shapeOptions:{color:'#F4E7C6',weight:2,fillColor:'#C2AE92',fillOpacity:.18}}); drawer.enable(); }
-function clearROI(){ drawn.clearLayers(); S.roi=null; document.getElementById('bbox').textContent='Draw a rectangle on the map to set the ROI.'; document.getElementById('reproj').textContent='Reprojected corners appear here.'; gate(); restyleStations(); }
+function clearROI(){ drawn.clearLayers(); S.roi=null; document.getElementById('bbox').textContent='Optional — draw a rectangle to crop the result figures.'; document.getElementById('reproj').textContent='Reprojected corners appear here.'; restyleStations(); }
 
 /* ---------- ROI + reprojection ---------- */
 function setROI(b){
@@ -183,7 +252,7 @@ function setROI(b){
   const wkm=haversine(sw.lat,sw.lng,sw.lat,ne.lng), hkm=haversine(sw.lat,sw.lng,ne.lat,sw.lng);
   document.getElementById('bbox').textContent =
     `W ${S.roi.w.toFixed(4)}  S ${S.roi.s.toFixed(4)}\nE ${S.roi.e.toFixed(4)}  N ${S.roi.n.toFixed(4)}\n≈ ${wkm.toFixed(1)} × ${hkm.toFixed(1)} km  (${(wkm*hkm).toFixed(0)} km²)`;
-  reproject(); gate(); restyleStations();
+  reproject(); restyleStations();
 }
 function haversine(la1,lo1,la2,lo2){const R=6371,d=Math.PI/180,a=Math.sin((la2-la1)*d/2)**2+Math.cos(la1*d)*Math.cos(la2*d)*Math.sin((lo2-lo1)*d/2)**2;return 2*R*Math.asin(Math.sqrt(a));}
 function utmDef(lon,lat){const z=Math.floor((lon+180)/6)+1;return `+proj=utm +zone=${z} ${lat<0?'+south ':''}+datum=WGS84 +units=m +no_defs`;}
@@ -202,13 +271,6 @@ function reproject(){
   }catch(err){document.getElementById('reproj').textContent='Could not reproject: '+err.message;}
 }
 
-/* ---------- gate ---------- */
-function gate(){
-  const ok = !!S.roi;
-  const b=document.getElementById('runbtn');
-  b.style.opacity= ok?1:.5; b.style.pointerEvents= ok?'auto':'none';
-}
-
 /* ---------- backend integration (same origin — zero configuration) ---------- */
 function api(){return '';}   // the page is served by the backend itself
 async function checkApi(){
@@ -216,13 +278,14 @@ async function checkApi(){
   try{
     const r=await fetch('/health'); const j=await r.json();
     S.apiOK=true;
-    s.textContent= j.mock ? 'connected · MOCK mode (Earth Engine unavailable — see server console; run `earthengine authenticate` for real results)'
-                          : 'connected · live Earth Engine';
+    s.textContent= j.mock ? 'connected · MOCK mode — the gbm_delta toolkit (or its dependencies) is not importable; placeholder figures only. See the server console.'
+                         : 'connected · gbm_delta toolkit live · no Google Earth Engine needed';
     plotStations();
   }catch(e){
     S.apiOK=false;
-    s.textContent='unreachable — open this page via the backend (python run.py → http://localhost:8000/toolkit.html), not as a local file';
+    s.textContent='unreachable — start the backend (python run.py → http://localhost:8000/toolkit.html), then reload this page';
   }
+  gate();
 }
 async function plotStations(){
   if(S.stations.length) return;
@@ -235,6 +298,7 @@ async function plotStations(){
         fillColor:'#C2AE92',fillOpacity:.95,className:'hydro-station'})
         .bindPopup(`<b>${st.name}</b><br>${st.river||'GBM hydro database'}<br>${st.tidal||''}<br>Water levels auto-fetched`)))
       .addTo(map);
+    S.layerCtrl.addOverlay(S.stationLayer,'Tide gauges');
     restyleStations();
   }catch(e){/* map still works without the station layer */}
 }
@@ -246,93 +310,129 @@ function restyleStations(){
     m.setStyle({radius:inside?7:5, weight:inside?2.5:1.5, fillColor:inside?'#7BA05B':'#C2AE92'});
   });
 }
-function buildSpec(){
-  return {roi:S.roi, crs:document.getElementById('crs').value,
-    export_crs: document.getElementById('crs').value==='custom'
-        ? document.getElementById('customproj').value : 'EPSG:32646',
-    sensors:S.sensors, years:[+y0.value,+y1.value], maxCloud:+cloud.value,
-    analyses:S.analyses};
+function buildSpec(analyses){
+  return {
+    roi:S.roi,
+    index:document.getElementById('index').value,
+    threshold:document.getElementById('threshold').value,
+    years:[+y0.value,+y1.value],
+    minScenes:+document.getElementById('minscenes').value||2,
+    pixelSizeM:+document.getElementById('pxm').value||30,
+    minComponentPx:+document.getElementById('mincomp').value||56,
+    elongation:+document.getElementById('elong').value||20,
+    analyses:analyses
+  };
 }
 
-/* ---------- preview (GEE tile layers) ---------- */
-async function previewLayers(){
-  if(!S.roi){alert('Draw an ROI first.');return;}
-  if(!S.apiOK){alert('Backend not connected — open this page via the backend (python run.py → http://localhost:8000/toolkit.html).');return;}
-  try{
-    const r=await fetch(api()+'/preview',{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify(buildSpec())});
-    const j=await r.json();
-    if(!j.layers||!j.layers.length){alert(j.note||'No layers returned (Earth Engine not initialised — check the backend console).');return;}
-    S.previewLayers.forEach(l=>map.removeLayer(l));
-    S.previewLayers=j.layers.map(Ly=>window.L.tileLayer(Ly.tile_url,{attribution:Ly.attribution,opacity:.8}).addTo(map));
-  }catch(e){alert('Preview failed: '+e.message);}
+/* ---------- buttons ---------- */
+function gate(){
+  const on = S.apiOK && !S.busy;
+  ['classify','clean','intertidal','lifespan','chain'].forEach(k=>{
+    const b=document.getElementById('btn-'+k); if(!b)return;
+    b.style.opacity = on?1:.5;
+    b.style.pointerEvents = on?'auto':'none';
+  });
 }
 
 /* ---------- run ---------- */
-const META={intertidal:['Intertidal extent & elevation',
-  'Yearly extent · lifespan · relative elevation (gbm_delta modules)']};
-function renderTabs(withSpec){
+function renderTabs(analyses){
   const tabs=document.getElementById('tabs'), panels=document.getElementById('panels');
   tabs.innerHTML='';panels.innerHTML='';
-  const mk=(id,label,html,on)=>{
-    const t=document.createElement('span');t.className='tab'+(on?' on':'');t.textContent=label;
+  analyses.forEach((a,i)=>{
+    const t=document.createElement('span');t.className='tab'+(i===0?' on':'');t.textContent=META[a][0];
     t.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
       document.querySelectorAll('.panel').forEach(x=>x.classList.remove('on'));
-      t.classList.add('on');document.getElementById('p_'+id).classList.add('on');};
+      t.classList.add('on');document.getElementById('p_'+a).classList.add('on');};
     tabs.appendChild(t);
-    const p=document.createElement('div');p.className='panel'+(on?' on':'');p.id='p_'+id;p.innerHTML=html;
+    const p=document.createElement('div');p.className='panel'+(i===0?' on':'');p.id='p_'+a;
+    p.innerHTML=`<div class="status" id="st_${a}">${META[a][1]} — submitting…</div>
+                 <div id="figs_${a}"></div><div id="files_${a}"></div>`;
     panels.appendChild(p);
-  };
-  mk('intertidal',META.intertidal[0],
-    `<div class="status" id="st_intertidal">Configured: ${META.intertidal[1]}. Water levels are fetched automatically from the GBM hydro database; Landsat via the Earth Engine Python API.</div>
-     <div class="figslot" id="slot_intertidal">${META.intertidal[0]} output<span>renders here after backend run</span></div>`, true);
-  if(withSpec)mk('spec','Request spec',
-    `<div class="status warn">Job spec sent to the backend (JSON — no uploads).</div><div class="readout">${JSON.stringify(buildSpec(),null,2)}</div>`,false);
+  });
 }
-async function runAll(){
-  if(!S.roi)return;
-  renderTabs(true);
-  document.getElementById('jobmeta').textContent=`intertidal · ${+y0.value}–${+y1.value}`;
+async function submit(analyses){
+  if(!S.apiOK){alert('Backend not connected — start it with `python run.py` and open http://localhost:8000/toolkit.html.');return;}
+  if(S.busy){alert('A job is already running — wait for it to finish.');return;}
+  S.busy=true; S.analyses=analyses; gate();
+  renderTabs(analyses);
+  document.getElementById('jobmeta').textContent=analyses.join(' · ')+' · submitting…';
   document.querySelector('.results').scrollIntoView({behavior:'smooth'});
-  if(!S.apiOK){
-    document.getElementById('st_intertidal').textContent=
-      'Backend unreachable — request spec shown. Start it (python run.py), open the page via http://localhost:8000/toolkit.html and run again.';
-    return;
-  }
-  document.getElementById('st_intertidal').textContent='Submitting…';
-  let jid;
   try{
     const r=await fetch(api()+'/jobs',{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify(buildSpec())});
-    const j=await r.json(); jid=j.job_id;
-    document.getElementById('jobmeta').textContent=`job ${jid}`;
+      body:JSON.stringify(buildSpec(analyses))});
+    const j=await r.json();
+    document.getElementById('jobmeta').textContent=`job ${j.job_id}`;
+    pollJob(j.job_id);
   }catch(e){
-    const st=document.getElementById('st_intertidal');st.className='status warn';
-    st.textContent='Submit failed: '+e.message;return;
+    const st=document.getElementById('st_'+analyses[0]);
+    if(st){st.className='status warn';st.textContent='Submit failed: '+e.message;}
+    S.busy=false; gate();
   }
-  pollJob(jid);
 }
 async function pollJob(jid){
   try{
     const r=await fetch(api()+'/jobs/'+jid); const j=await r.json();
-    (j.results?Object.entries(j.results):[]).forEach(([a,res])=>{
-      const st=document.getElementById('st_'+a); if(!st)return;
-      const ok=res.status&&res.status.startsWith('ok');
-      st.className='status '+(ok?'ok':'warn'); st.textContent=res.status||'…';
-      const img=(res.files||[]).find(f=>/\.png|\.jpg/i.test(f));
-      const slot=document.getElementById('slot_'+a);
-      if(img&&slot)slot.outerHTML=`<img id="slot_${a}" src="${api()+img}" style="width:100%;border-radius:14px;border:1px solid var(--line)">`;
-    });
-    if(j.status==='running'||j.status==='queued'){setTimeout(()=>pollJob(jid),2500);}
-    else{document.getElementById('jobmeta').textContent=`job ${jid} · ${j.status}`;
-      if(j.log&&j.log.length){const d=document.createElement('div');d.className='readout';
-        d.style.marginTop='10px';d.textContent='Backend log\n'+j.log.join('\n');
-        document.getElementById('p_intertidal').appendChild(d);}}
+    (j.results?Object.entries(j.results):[]).forEach(([a,res])=>renderResult(a,res));
+    if(j.status==='running'||j.status==='queued'){
+      document.getElementById('jobmeta').textContent=`job ${jid} · ${j.status}…`;
+      setTimeout(()=>pollJob(jid),2500);
+    }else{
+      S.busy=false; gate();
+      document.getElementById('jobmeta').textContent=`job ${jid} · ${j.status}`;
+      if(j.log&&j.log.length){
+        const d=document.createElement('details');d.className='logbox';
+        d.innerHTML=`<summary>Backend log (${j.log.length} lines)</summary><pre>${j.log.map(x=>x.replace(/[<>&]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;'}[c]))).join('\n')}</pre>`;
+        document.getElementById('panels').appendChild(d);
+      }
+    }
   }catch(e){setTimeout(()=>pollJob(jid),4000);}
+}
+function renderResult(a,res){
+  const st=document.getElementById('st_'+a); if(!st)return;
+  const s=res.status||'…';
+  st.className='status '+(/^ok/.test(s)?'ok':'warn');
+  st.textContent=s;
+
+  const figs=document.getElementById('figs_'+a);
+  if(figs){
+    figs.innerHTML='';
+    (res.layers||[]).forEach(ly=>{
+      if(!ly||!ly.png)return;
+      const fig=document.createElement('div');fig.className='figwrap';
+      const kindChip = ly.kind==='graph' ? '<span class="chipfig graph">time series</span>'
+                                         : '<span class="chipfig">map</span>';
+      fig.innerHTML=`<div class="fighead">${ly.name||''} ${kindChip}</div>
+                     <img src="${api()+ly.png}" loading="lazy" alt="${ly.name||''}">`;
+      figs.appendChild(fig);
+      if(ly.bounds) addOverlay(a,ly);   // map layers are also draped on the Leaflet map
+    });
+  }
+
+  const fl=document.getElementById('files_'+a);
+  if(fl){
+    const files=(res.files||[]).filter(Boolean).filter(f=>/\.(tif|csv)$/i.test(f));
+    if(files.length){
+      let html=`<div class="fighead">Outputs</div><div class="dlinks">`;
+      files.slice(0,12).forEach(f=>{
+        html+=`<a href="${api()+f}" target="_blank">⬇ ${decodeURIComponent(f.split('/').pop().split('?')[0])}</a>`;
+      });
+      if(files.length>12)html+=`<span class="muted" style="align-self:center">+${files.length-12} more</span>`;
+      html+='</div>';
+      fl.innerHTML=html;
+    }else{fl.innerHTML='';}
+  }
+}
+function addOverlay(a,ly){
+  if(!window.L||!map)return;
+  if(!S.overlays[a]){
+    S.overlays[a]=L.layerGroup().addTo(map);
+    S.layerCtrl.addOverlay(S.overlays[a],META[a][0]);
+  }
+  L.imageOverlay(api()+ly.png, ly.bounds, {opacity:.7, interactive:false}).addTo(S.overlays[a]);
 }
 
 window.addEventListener('load',()=>{
-  if(window.L){initMap();} else {document.getElementById('map').innerHTML='<div style="padding:20px;color:#9c8a6c">Map library blocked in this preview — it loads normally when the page is hosted.</div>';}
+  if(window.L){initMap();} else {document.getElementById('map').innerHTML='<div style="padding:20px;color:#9c8a6c">Map library blocked in this preview — it loads normally when the page is served by the backend.</div>';}
   gate();
   checkApi();   // same-origin backend — status + gauge stations appear automatically
 });
