@@ -1,28 +1,22 @@
 """
-app.py — DeltaSAT backend API (FastAPI).
+app.py — DeltaSAT backend API (FastAPI, no-GEE edition).
 
 Endpoints
 ---------
-GET  /health                      → {ok, mock, mode, ee}
+GET  /health                      → {ok, mock, mode}
 GET  /stations                    → Meghna-estuary gauge stations from the
                                      GitHub hydro database (auto-downloaded)
-POST /preview      {roi,years,...} → live GEE tile layers for the map
 POST /jobs         (JSON spec)    → start an async analysis job → {job_id}
 GET  /jobs/{id}                    → status, log, per-analysis results
 GET  /jobs/{id}/file?path=...      → download an output file (png/pdf/csv/tif)
 
-No user uploads: Landsat imagery comes from the Earth Engine Python API
-(imported automatically when a job starts — see pipeline.resolve_mode),
-water levels from NTahsin/Ganges-Brahmaputra-Meghna-Hydro-morpho
-("meghna estuary") via demo/hydro.py.
+No Google Earth Engine and no user uploads: water-index GeoTIFFs come from
+NTahsin/Ganges-Brahmaputra-Meghna-Hydro-morpho ("geotiffs") via demo/geodata.py,
+water levels from the same repository ("meghna estuary") via demo/hydro.py.
 
 Run:
     pip install -r requirements.txt
-    # default: auto — live GEE when credentials exist, MOCK otherwise
-    uvicorn app:app --reload --port 8000
-    # force:
-    MOCK_MODE=0 EE_PROJECT="your-gcp-project" uvicorn app:app --port 8000
-    MOCK_MODE=1 uvicorn app:app --port 8000
+    uvicorn app:app --port 8000
 """
 from __future__ import annotations
 import os
@@ -49,17 +43,6 @@ app.add_middleware(CORSMiddleware, allow_origins=["*"],
 JOBS: dict[str, dict] = {}
 _LOCK = threading.Lock()
 
-# Earth Engine availability probe (background so startup is instant).
-_EE_OK: bool | None = None
-
-
-def _probe_ee():
-    global _EE_OK
-    _EE_OK = pipeline._ee_ready(lambda msg: None)
-
-
-threading.Thread(target=_probe_ee, daemon=True).start()
-
 
 def _log(job_id):
     def add(msg):
@@ -70,8 +53,9 @@ def _log(job_id):
 
 @app.get("/health")
 def health():
-    mock = True if MODE == "1" else False if MODE == "0" else (_EE_OK is not True)
-    return {"ok": True, "mode": MODE, "mock": mock, "ee": _EE_OK,
+    mock = True if MODE == "1" else (False if MODE == "0"
+                                     else not pipeline.toolkit_available())
+    return {"ok": True, "mode": MODE, "mock": mock,
             "toolkit_dir": os.getenv("TOOLKIT_DIR", "") or None}
 
 
@@ -82,24 +66,6 @@ def stations():
         return {"ok": True, "stations": hydro.station_table()}
     except Exception as exc:
         raise HTTPException(503, f"hydro database unreachable: {exc}")
-
-
-@app.post("/preview")
-def preview(spec: dict):
-    """Live map tiles (MNDWI water composite + JRC occurrence)."""
-    if _EE_OK is not True:
-        return {"mock": True, "layers": [],
-                "note": "Earth Engine not initialised (auto mode). "
-                        "Authenticate (earthengine authenticate) and/or set "
-                        "MOCK_MODE=0 + EE_PROJECT."}
-    try:
-        import gee
-        layers = gee.preview_layers(spec["roi"], spec["years"][0], spec["years"][1],
-                                    sensors=spec.get("sensors", ["landsat"]),
-                                    max_cloud=spec.get("maxCloud", 20))
-        return {"mock": False, "layers": layers}
-    except Exception as exc:
-        raise HTTPException(500, f"preview failed: {exc}")
 
 
 def _run_job(job_id, spec):
@@ -119,7 +85,7 @@ def _run_job(job_id, spec):
 @app.post("/jobs")
 async def create_job(spec: dict):
     """Start an analysis job. The spec is a plain JSON body — there are no
-    file uploads; water levels and imagery are fetched by the backend."""
+    file uploads; GeoTIFFs and water levels are fetched by the backend."""
     job_id = uuid.uuid4().hex[:12]
     with _LOCK:
         JOBS[job_id] = {"status": "queued", "log": [], "results": {}, "spec": spec}
@@ -134,21 +100,29 @@ def job_status(job_id: str):
         j = JOBS.get(job_id)
         if not j:
             raise HTTPException(404, "unknown job")
-        # expose files as API-relative paths the front-end can fetch
-        results = {}
-        for a, r in j["results"].items():
-            results[a] = {**r, "files": [_rel(job_id, p) for p in r.get("files", [])]}
+        # expose files & layer PNGs as API-relative paths the front-end can fetch
+        results = {a: _rewrite(job_id, r) for a, r in j["results"].items()}
         return {"job_id": job_id, "status": j["status"],
                 "log": j["log"], "results": results}
 
 
-def _rel(job_id, abspath):
+def _rewrite(job_id, r: dict) -> dict:
     root = (pipeline.WORK_ROOT / job_id).resolve()
-    try:
-        rel = Path(abspath).resolve().relative_to(root)
-        return f"/jobs/{job_id}/file?path={rel.as_posix()}"
-    except Exception:
-        return None
+
+    def rel(p):
+        try:
+            return (f"/jobs/{job_id}/file?path="
+                    f"{Path(p).resolve().relative_to(root).as_posix()}")
+        except Exception:
+            return None
+
+    out = {**r}
+    if "files" in r:
+        out["files"] = [rel(p) for p in r.get("files", [])]
+    if "layers" in r:
+        out["layers"] = [{**ly, "png": rel(ly.get("png"))}
+                         for ly in r.get("layers", []) if ly.get("png")]
+    return out
 
 
 @app.get("/jobs/{job_id}/file")
