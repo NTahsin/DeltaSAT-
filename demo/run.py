@@ -9,9 +9,12 @@ in your browser. That is the whole setup:
 
 Options via environment variables (all optional):
     PORT=8000            server port
-    MOCK_MODE=1|0|auto   1 = placeholder figures · 0 = force Earth Engine ·
-                         auto (default) = live GEE when credentials exist
-    EE_PROJECT=...       your Google Cloud project id (live mode)
+    MOCK_MODE=1|0|auto   1 = placeholder figures · 0 = force live (fails hard
+                         if the gbm_delta toolkit is not importable) ·
+                         auto (default) = live when the toolkit imports,
+                         MOCK with a log note otherwise
+    GITHUB_TOKEN=...     optional — raises the GitHub API rate limit for the
+                         GeoTIFF / gauge downloads
 """
 from __future__ import annotations
 
@@ -39,5 +42,7 @@ if __name__ == "__main__":
     print("\n  DeltaSAT backend starting …")
     print(f"  ➜ Toolkit:   http://localhost:{PORT}/toolkit.html")
     print(f"  ➜ Home page: http://localhost:{PORT}/")
+    print("  ➜ Data: GeoTIFFs + water levels auto-fetched from the GitHub "
+          "database (no Google Earth Engine)")
     print("  ➜ Stop with Ctrl+C\n")
     uvicorn.run("app:app", host="127.0.0.1", port=PORT, reload=False)
