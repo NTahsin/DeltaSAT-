@@ -2,17 +2,13 @@
 """
 run.py — one-command DeltaSAT launcher.
 
-Starts the backend (which also serves the web pages) and opens the toolkit
-in your browser. That is the whole setup:
-
-    python run.py                       # → http://localhost:8000/toolkit.html
+    python run.py    # → http://localhost:8000/toolkit.html
 
 Options via environment variables (all optional):
     PORT=8000            server port
-    MOCK_MODE=1|0|auto   1 = placeholder figures · 0 = force live (fails hard
-                         if the gbm_delta toolkit is not importable) ·
-                         auto (default) = live when the toolkit imports,
-                         MOCK with a log note otherwise
+    MOCK_MODE=1|0|auto   1 = placeholder figures · 0 = force live ·
+                         auto (default) = live when the gbm_delta toolkit
+                         imports, MOCK with a log note otherwise
     GITHUB_TOKEN=...     optional — raises the GitHub API rate limit for the
                          GeoTIFF / gauge downloads
 """
