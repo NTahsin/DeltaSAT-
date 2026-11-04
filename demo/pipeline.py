@@ -181,6 +181,13 @@ def _date_of(name: str) -> str:
     return stem
 
 
+def _year_of(name: str) -> int:
+    """First 4-digit year in a filename. Works for full dates
+    (binary_1996-02-09.tif) AND yearly maps (intertidal_1996.tif) —
+    do NOT use ``_date_of(...)[:4]`` for the latter ('inte' → crash)."""
+    return int(re.search(r"(\d{4})", Path(name).stem).group(1))
+
+
 def _bounds_wgs84(path):
     try:
         import rasterio
@@ -557,7 +564,7 @@ def _intertidal_step(spec, ws, log, api):
         det_dir = bindir          # cleaning kept nothing → raw masks
         log("intertidal: channel cleaning kept nothing — using raw masks")
 
-    years_data = sorted({int(_date_of(p.name)[:4])
+    years_data = sorted({_year_of(p.name)
                          for p in det_dir.glob("binary_*.tif")})
     y0, y1 = spec.get("years", [None, None])
     target = [y for y in years_data
@@ -620,7 +627,7 @@ def run_intertidal(spec, ws, log, mock):
     roi = _roi_bbox(spec.get("roi"))
     layers = []
     for t in maps:
-        year = _date_of(t.name)
+        year = _year_of(t.name)
         layers.append(_render_map_png(t, out / f"intertidal_map_{year}.tif.png",
                                       "classified", roi=roi,
                                       title=f"Intertidal classes {year}"))
@@ -669,11 +676,11 @@ def run_lifespan(spec, ws, log, mock):
         _intertidal_step(spec, ws, log, api)
 
     maps = sorted(det_dir.glob("intertidal_*.tif"))
-    years = sorted(int(_date_of(p.name)[:4]) for p in maps)
+    years = sorted({_year_of(p.name) for p in maps})
     roi = _roi_bbox(spec.get("roi"))
     if len(years) < 2:
         layers = [_render_map_png(t,
-                                  out / f"classified_{_date_of(t.name)}.tif.png",
+                                  out / f"classified_{_year_of(t.name)}.tif.png",
                                   "classified", roi=roi) for t in maps]
         return {"status": f"needs ≥ 2 years of intertidal maps — found "
                           f"{len(years)} ({', '.join(map(str, years)) or 'none'}). "
@@ -736,7 +743,7 @@ def run_migration(spec, ws, log, mock):
         _intertidal_step(spec, ws, log, api)
 
     maps = sorted(det_dir.glob("intertidal_*.tif"))
-    years = sorted(int(_date_of(p.name)[:4]) for p in maps)
+    years = sorted({_year_of(p.name) for p in maps})
     roi = _roi_bbox(spec.get("roi"))
     if len(years) < 2:
         return {"status": f"needs ≥ 2 years to measure migration — found "
