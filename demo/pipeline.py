@@ -467,8 +467,10 @@ def _classify_step(spec, ws, log, api):
     import rasterio
 
     index = spec.get("index", "mndwi")
-    files = geodata.fetch(index, log)
-    log(f"classify: {len(files)} '{index}' GeoTIFF(s) from the GitHub database")
+    files = geodata.fetch(index, log, years=spec.get("years"))
+    log(f"classify: {len(files)} '{index}' GeoTIFF(s) from the GitHub database"
+        + (f" for years {spec['years'][0]}–{spec['years'][1]}"
+           if spec.get("years") else ""))
     roi = spec.get("roi")          # GeoJSON Polygon or None
 
     bindir = ws / "01_binary"
@@ -561,8 +563,13 @@ def _intertidal_step(spec, ws, log, api):
     target = [y for y in years_data
               if (not y0 or y >= int(y0)) and (not y1 or y <= int(y1))]
     if not target:
-        log(f"intertidal: no scenes in {y0}–{y1}; using all available years")
-        target = years_data
+        if y0 or y1:
+            raise RuntimeError(
+                f"no scenes in {y0 or '…'}–{y1 or '…'} — available years: "
+                f"{', '.join(map(str, years_data)) or 'none'}. Widen the "
+                f"year range in the toolkit panel.")
+        log("intertidal: no scenes found — nothing to analyse")
+        raise RuntimeError("no scenes available in the database")
     log(f"intertidal: years {target}")
 
     out_dir = ws / "04_intertidal"
