@@ -36,7 +36,7 @@
   .num{width:24px;height:24px;flex:none;border-radius:7px;background:var(--river-deep);color:#fff;font-size:.78rem;font-weight:700;display:grid;place-items:center}
   .grp:nth-of-type(2) .num{background:var(--sage-deep)}.grp:nth-of-type(3) .num{background:var(--sand-deep)}.grp:nth-of-type(4) .num{background:var(--terracotta)}
   label.fld{display:block;font-size:.76rem;font-weight:600;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.06em;margin:12px 0 5px}
-  input[type=text],input[type=number],input[type=date],select{width:100%;font-family:"Open Sans",sans-serif;font-size:.9rem;color:var(--ink);padding:9px 11px;border:1px solid var(--line);border-radius:8px;background:#fff;transition:border .15s}
+  input[type=text],input[type=number],select{width:100%;font-family:"Open Sans",sans-serif;font-size:.9rem;color:var(--ink);padding:9px 11px;border:1px solid var(--line);border-radius:8px;background:#fff;transition:border .15s}
   input:focus,select:focus{outline:none;border-color:var(--river-deep)}
   .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
   .btn.full{width:100%;justify-content:center;margin-top:6px}
@@ -46,14 +46,14 @@
   .readout{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.78rem;background:var(--cream);border:1px solid #e6ddc9;border-radius:8px;padding:10px 12px;color:var(--ink);line-height:1.7;white-space:pre-wrap;word-break:break-word}
   .muted{color:var(--ink-soft);font-size:.82rem;line-height:1.55}
   .mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.92em}
+  .chip{font-size:.68rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#fff;background:var(--sage-deep);border-radius:6px;padding:3px 8px}
   /* analysis cards */
   .acard{border:1px solid var(--river-deep);border-radius:10px;padding:14px;background:#f4f8f9;box-shadow:inset 3px 0 0 var(--river-deep);margin-bottom:12px}
   .acard h4{font-family:"Roboto",sans-serif;font-size:.92rem;font-weight:600;margin-bottom:4px;display:flex;align-items:center;gap:8px}
   .acard p{font-size:.78rem;color:var(--ink-soft);line-height:1.5;margin-bottom:8px}
-  .acard .chip{font-size:.68rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#fff;background:var(--sage-deep);border-radius:6px;padding:3px 8px}
   /* stage / map / results */
   .stage{display:flex;flex-direction:column;min-width:0}
-  #map{height:62%;min-height:400px;background:var(--river-pale);z-index:1}
+  #map{height:60%;min-height:380px;background:var(--river-pale);z-index:1}
   .maptools{position:absolute;z-index:600;top:12px;left:50px;display:flex;gap:8px;background:rgba(255,255,255,.92);backdrop-filter:blur(6px);padding:6px;border-radius:9px;box-shadow:var(--shadow)}
   .results{flex:1;overflow-y:auto;border-top:1px solid var(--line);background:#FBFAF6;padding:18px 22px}
   .resbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:14px;flex-wrap:wrap}
@@ -102,29 +102,13 @@
   <aside class="rail">
 
     <div class="grp">
-      <h3><span class="num">1</span> Region of interest <span class="chipfig" style="background:var(--sand-deep)">optional</span></h3>
-      <p class="muted">Basemap: Esri World Imagery (satellite). Draw an ROI to crop the result figures to your area — analyses run on the full GeoTIFFs either way.</p>
-      <div class="toggle-row" style="margin-top:10px">
-        <span class="btn sm" onclick="startDraw()">▢ Draw ROI</span>
-        <span class="btn sm sec" onclick="clearROI()">Clear</span>
-      </div>
-      <label class="fld">Bounding box (WGS84)</label>
-      <div class="readout" id="bbox">Optional — draw a rectangle to crop the result figures.</div>
-
-      <label class="fld">Output CRS — reprojection</label>
-      <select id="crs" onchange="reproject()">
-        <option value="4326">EPSG:4326 — WGS84 lat/lon</option>
-        <option value="3857">EPSG:3857 — Web Mercator (m)</option>
-        <option value="utm">UTM — auto zone from ROI (m)</option>
-        <option value="custom">Custom proj4 string…</option>
-      </select>
-      <input type="text" id="customproj" placeholder="+proj=… +datum=WGS84 +units=m +no_defs" style="display:none;margin-top:8px" oninput="reproject()">
-      <div class="readout" id="reproj" style="margin-top:8px">Reprojected corners appear here.</div>
+      <h3><span class="num">1</span> Data region <span class="chip">auto</span></h3>
+      <p class="muted">The map shows where GeoTIFF and water-level data exist (dashed outline + gauge dots), fetched from your GitHub database. Draw your ROI inside that region.</p>
+      <div class="readout" id="coverage" style="margin-top:10px">Fetching data region …</div>
     </div>
 
     <div class="grp">
-      <h3><span class="num">2</span> Water index &amp; period</h3>
-      <p class="muted">Water-index GeoTIFFs are provided in the GitHub database — pick which index the land–water classification runs on.</p>
+      <h3><span class="num">2</span> Water index &amp; years</h3>
       <label class="fld">Water index</label>
       <select id="index">
         <option value="mndwi">MNDWI — geotiffs/00_MNDWI</option>
@@ -147,50 +131,42 @@
         <div><label class="fld">Min channel blob (px)</label><input type="number" id="mincomp" value="56" min="1"></div>
         <div><label class="fld">Elongation</label><input type="number" id="elong" value="20" step="0.5"></div>
       </div>
+      <div class="readout" id="avail" style="margin-top:10px">Available scene years appear here.</div>
     </div>
 
     <div class="grp">
-      <h3><span class="num">3</span> Analyses</h3>
+      <h3><span class="num">3</span> Region of interest — polygon</h3>
+      <p class="muted">Draw a polygon inside the data region; every analysis is clipped to it. Without a polygon, the full scene footprint is used.</p>
+      <div class="toggle-row" style="margin-top:10px">
+        <span class="btn sm" onclick="startDraw()">⬠ Draw polygon ROI</span>
+        <span class="btn sm sec" onclick="clearROI()">Clear</span>
+      </div>
+      <div class="readout" id="bbox" style="margin-top:10px">No ROI drawn — analyses will run on the full GeoTIFF footprint.</div>
+    </div>
+
+    <div class="grp">
+      <h3><span class="num">4</span> Analyses</h3>
 
       <div class="acard">
-        <h4>1 · Land–water classification</h4>
-        <p>Binary land/water masks from the chosen index GeoTIFFs — Otsu thresholding via <span class="mono">gbm_delta.extraction.index_quality</span>.</p>
-        <span class="btn sm full" id="btn-classify" onclick="submit(['classify'])">Run classification</span>
+        <h4>a · Intertidal area extents</h4>
+        <p>Per-year land / river / intertidal classification with <b>area in km²</b> — <span class="mono">IntertidalDetector</span>. Results as maps + time-series graph.</p>
+        <span class="btn sm full" id="btn-intertidal" onclick="submit(['intertidal'])">Run extent analysis</span>
       </div>
 
       <div class="acard">
-        <h4>2 · Clean land–water → river channels</h4>
-        <p>Remove ponds, aquaculture and noise from the land–water images, keeping clean channel-like water — <span class="mono">gbm_delta.extraction.river_mask.RiverFromGeotiff</span>.</p>
-        <span class="btn sm full" id="btn-clean" onclick="submit(['clean'])">Run cleaning</span>
-      </div>
-
-      <div class="acard">
-        <h4>3 · Intertidal extent (area)</h4>
-        <p>Yearly land / river / intertidal classification with area statistics — <span class="mono">gbm_delta.extraction.intertidal_detector</span>. Results as <span class="chip">map</span> <span class="chip">+ time series</span>.</p>
-        <span class="btn sm full" id="btn-intertidal" onclick="submit(['intertidal'])">Run intertidal extent</span>
-      </div>
-
-      <div class="acard">
-        <h4>4 · Lifespan analysis</h4>
-        <p>Year-interval transition matrices and Markov lifespans of the intertidal class — <span class="mono">gbm_delta.morphodynamics.lifespan_legacy</span>. Results as <span class="chip">map</span> <span class="chip">+ time series</span>.</p>
+        <h4>b · Intertidal lifespan hotspot</h4>
+        <p>Pixel-wise lifespan (hotspot) maps over the selected years + interval time series — <span class="mono">morphodynamics.lifespan_v2</span>.</p>
         <span class="btn sm full" id="btn-lifespan" onclick="submit(['lifespan'])">Run lifespan analysis</span>
       </div>
 
-      <span class="btn full" id="btn-chain" onclick="submit(['classify','clean','intertidal','lifespan'])">Run full chain →</span>
-    </div>
+      <div class="acard">
+        <h4>c · Channel migration rate</h4>
+        <p>Migration-rate time series and a map of bank movement between the selected years — <span class="mono">channel.migration.ChannelMigrationAnalyzer</span>.</p>
+        <span class="btn sm full" id="btn-migration" onclick="submit(['migration'])">Run migration analysis</span>
+      </div>
 
-    <div class="grp">
-      <h3><span class="num">4</span> Data sources <span class="chip" style="font-size:.66rem;background:var(--river-deep)">automatic</span></h3>
-      <p class="muted">Nothing to upload — no Google Earth Engine. Everything is fetched from your GitHub database and cached:</p>
-      <div class="readout" style="margin-top:8px">Water-index &amp; land/water GeoTIFFs
-  ← NTahsin/Ganges-Brahmaputra-
-    Meghna-Hydro-morpho
-    ("geotiffs" folder — demo/geodata.py)</div>
-      <div class="readout" style="margin-top:8px">Water levels (10 stations, hourly)
-    + stations.csv
-  ← same repository
-    ("meghna estuary" folder — demo/hydro.py)</div>
-      <p class="muted" style="margin-top:10px">Gauge stations are plotted on the map automatically once the backend is up.</p>
+      <span class="btn full" id="btn-all" onclick="submit(['intertidal','lifespan','migration'])">Run all three →</span>
+      <p class="muted" style="margin-top:8px;text-align:center">Each analysis chains automatically: b and c run the extent classification first when needed.</p>
     </div>
   </aside>
 
@@ -198,16 +174,16 @@
   <section class="stage">
     <div style="position:relative">
       <div class="maptools">
-        <span class="btn sm" onclick="startDraw()">▢ Draw ROI</span>
+        <span class="btn sm" onclick="startDraw()">⬠ Draw polygon ROI</span>
         <span class="btn sm sec" onclick="clearROI()">Clear</span>
       </div>
       <div id="map"></div>
     </div>
-    <div class="map-cap">Esri satellite basemap · analyses run on the GeoTIFFs of the GitHub database (no Google Earth Engine) · result maps are auto-overlaid on the map · draw an optional ROI to crop the result figures.</div>
+    <div class="map-cap">Esri satellite basemap · dashed outline = GeoTIFF coverage · dots = tide gauges · draw a polygon ROI inside the data region · result maps are auto-overlaid on the map.</div>
 
     <div class="results">
       <div class="backbar">⚙ Backend status: <b id="apistat">connecting…</b>
-        <span style="opacity:.85">— this page is served by the analysis backend itself: start it with <code>python run.py</code> and open <code>http://localhost:8000/toolkit.html</code>. Imagery and water levels come from your GitHub database.</span>
+        <span style="opacity:.85">— served by the analysis backend: start it with <code>python run.py</code> and open <code>http://localhost:8000/toolkit.html</code>. No Google Earth Engine: GeoTIFFs and water levels come from your GitHub database.</span>
       </div>
       <div class="resbar"><h2>Results</h2><span class="muted" id="jobmeta">No job submitted.</span></div>
       <div class="tabs" id="tabs"></div>
@@ -218,61 +194,67 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.11.0/proj4.js"></script>
 <script>
 /* ---------- state ---------- */
-const S = {roi:null, analyses:[], stations:[], stationLayer:null,
-           overlays:{}, layerCtrl:null, apiOK:false, busy:false};
+const S = {roi:null, analyses:[], stations:[], stationLayer:null, coverage:{},
+           covLayer:null, overlays:{}, layerCtrl:null, apiOK:false, busy:false};
 
 const META = {
-  classify:   ['Land–water classification', 'Otsu thresholding of the chosen water-index GeoTIFFs (gbm_delta.extraction.index_quality)'],
-  clean:      ['Clean land–water → river channels', 'RiverFromGeotiff — ponds & noise removed, channel-like water kept'],
-  intertidal: ['Intertidal extent (area)', 'IntertidalDetector — yearly land / river / intertidal maps + area time series'],
-  lifespan:   ['Lifespan analysis', 'LifespanCalculator — transition matrices & Markov lifespans, map + time series']
+  intertidal: ['Intertidal area extents', 'IntertidalDetector — per-year maps + area (km²) time series'],
+  lifespan:   ['Intertidal lifespan hotspot', 'lifespan_v2 — windowed P_II hotspot maps + interval time series'],
+  migration:  ['Channel migration rate', 'ChannelMigrationAnalyzer — migration-rate time series + bank-movement map']
 };
 
-/* ---------- map (Esri satellite basemap) ---------- */
+/* ---------- map ---------- */
 const ESRI = ['https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
               'Esri, Maxar, Earthstar Geographics'];
 let map, base, drawn = new L.FeatureGroup(), drawer;
 function initMap(){
-  map = L.map('map',{zoomControl:true}).setView([22.6,90.5],9); // Meghna estuary default
+  map = L.map('map',{zoomControl:true}).setView([22.6,90.5],9);
   base = L.tileLayer(ESRI[0],{maxZoom:18,attribution:ESRI[1]}).addTo(map);
   map.addLayer(drawn);
   S.layerCtrl = L.control.layers({'Esri satellite': base}, {}).addTo(map);
-  map.on(L.Draw.Event.CREATED, e=>{ drawn.clearLayers(); drawn.addLayer(e.layer); setROI(e.layer.getBounds()); });
+  map.on(L.Draw.Event.CREATED, e=>{ drawn.clearLayers(); drawn.addLayer(e.layer); setROI(e.layer); });
 }
-function startDraw(){ drawer = new L.Draw.Rectangle(map,{shapeOptions:{color:'#F4E7C6',weight:2,fillColor:'#C2AE92',fillOpacity:.18}}); drawer.enable(); }
-function clearROI(){ drawn.clearLayers(); S.roi=null; document.getElementById('bbox').textContent='Optional — draw a rectangle to crop the result figures.'; document.getElementById('reproj').textContent='Reprojected corners appear here.'; restyleStations(); }
-
-/* ---------- ROI + reprojection ---------- */
-function setROI(b){
-  const sw=b.getSouthWest(), ne=b.getNorthEast();
-  S.roi={w:sw.lng,s:sw.lat,e:ne.lng,n:ne.lat};
-  const wkm=haversine(sw.lat,sw.lng,sw.lat,ne.lng), hkm=haversine(sw.lat,sw.lng,ne.lat,sw.lng);
-  document.getElementById('bbox').textContent =
-    `W ${S.roi.w.toFixed(4)}  S ${S.roi.s.toFixed(4)}\nE ${S.roi.e.toFixed(4)}  N ${S.roi.n.toFixed(4)}\n≈ ${wkm.toFixed(1)} × ${hkm.toFixed(1)} km  (${(wkm*hkm).toFixed(0)} km²)`;
-  reproject(); restyleStations();
+function startDraw(){
+  drawer = new L.Draw.Polygon(map,{shapeOptions:{color:'#F4E7C6',weight:2,fillColor:'#C2AE92',fillOpacity:.18,repeatMode:false}});
+  drawer.enable();
 }
-function haversine(la1,lo1,la2,lo2){const R=6371,d=Math.PI/180,a=Math.sin((la2-la1)*d/2)**2+Math.cos(la1*d)*Math.cos(la2*d)*Math.sin((lo2-lo1)*d/2)**2;return 2*R*Math.asin(Math.sqrt(a));}
-function utmDef(lon,lat){const z=Math.floor((lon+180)/6)+1;return `+proj=utm +zone=${z} ${lat<0?'+south ':''}+datum=WGS84 +units=m +no_defs`;}
-function reproject(){
-  const sel=document.getElementById('crs').value, cust=document.getElementById('customproj');
-  cust.style.display = sel==='custom' ? 'block':'none';
-  if(!S.roi){return;}
-  let def, label;
-  if(sel==='4326'){document.getElementById('reproj').textContent='WGS84 (degrees) — same as bounding box above.';return;}
-  else if(sel==='3857'){def='EPSG:3857';label='EPSG:3857 (m)';}
-  else if(sel==='utm'){const cx=(S.roi.w+S.roi.e)/2, cy=(S.roi.s+S.roi.n)/2; def=utmDef(cx,cy); label='UTM '+def.match(/zone=(\d+)/)[1]+(def.includes('south')?'S':'N')+' (m)';}
-  else {def=cust.value.trim(); label='custom (units per proj string)'; if(!def){document.getElementById('reproj').textContent='Enter a proj4 string.';return;}}
-  try{
-    const sw=proj4('EPSG:4326',def,[S.roi.w,S.roi.s]), ne=proj4('EPSG:4326',def,[S.roi.e,S.roi.n]);
-    document.getElementById('reproj').textContent=`${label}\nSW  ${sw[0].toFixed(2)}, ${sw[1].toFixed(2)}\nNE  ${ne[0].toFixed(2)}, ${ne[1].toFixed(2)}`;
-  }catch(err){document.getElementById('reproj').textContent='Could not reproject: '+err.message;}
+function clearROI(){
+  drawn.clearLayers(); S.roi=null;
+  document.getElementById('bbox').textContent='No ROI drawn — analyses will run on the full GeoTIFF footprint.';
 }
 
-/* ---------- backend integration (same origin — zero configuration) ---------- */
-function api(){return '';}   // the page is served by the backend itself
+/* ---------- ROI (polygon, GeoJSON to the backend) ---------- */
+function setROI(layer){
+  const gj = layer.toGeoJSON();
+  S.roi = gj.geometry;                      // GeoJSON Polygon, WGS84
+  const ring = gj.geometry.coordinates[0]; // [[lon,lat], …]
+  const lats = ring.map(p=>p[1]), lons = ring.map(p=>p[0]);
+  const area = polyAreaKm2(ring.map(p=>[p[1],p[0]]));   // [lat,lon] pairs
+  let txt = `${ring.length-1} vertices\nArea ≈ ${area.toFixed(1)} km²\n` +
+    `W ${Math.min(...lons).toFixed(4)}  S ${Math.min(...lats).toFixed(4)}\n` +
+    `E ${Math.max(...lons).toFixed(4)}  N ${Math.max(...lats).toFixed(4)}`;
+  const cov = S.coverage[document.getElementById('index').value];
+  if (cov && cov.bounds){
+    const [[s,w],[n,e]] = cov.bounds;
+    const outside = Math.min(...lons) < w || Math.max(...lons) > e ||
+                    Math.min(...lats) < s || Math.max(...lats) > n;
+    if (outside) txt += '\n⚠ part of the polygon lies outside the data region — it will be clipped to the available GeoTIFFs';
+  }
+  document.getElementById('bbox').textContent = txt;
+}
+function polyAreaKm2(ring){                 // equirectangular shoelace, km²
+  const R=6371, d=Math.PI/180;
+  const lat0 = ring.reduce((a,p)=>a+p[0],0)/ring.length;
+  const P = ring.map(p=>[p[1]*d*R*Math.cos(lat0*d), p[0]*d*R]);
+  let s=0;
+  for (let i=0;i<P.length;i++){const [x1,y1]=P[i],[x2,y2]=P[(i+1)%P.length];s+=x1*y2-x2*y1;}
+  return Math.abs(s)/2;
+}
+
+/* ---------- backend ---------- */
+function api(){return '';}
 async function checkApi(){
   const s=document.getElementById('apistat');
   try{
@@ -280,12 +262,44 @@ async function checkApi(){
     S.apiOK=true;
     s.textContent= j.mock ? 'connected · MOCK mode — the gbm_delta toolkit (or its dependencies) is not importable; placeholder figures only. See the server console.'
                          : 'connected · gbm_delta toolkit live · no Google Earth Engine needed';
-    plotStations();
+    plotCoverage(); plotStations();
   }catch(e){
     S.apiOK=false;
     s.textContent='unreachable — start the backend (python run.py → http://localhost:8000/toolkit.html), then reload this page';
   }
   gate();
+}
+async function plotCoverage(){
+  const el=document.getElementById('coverage');
+  try{
+    const j=await (await fetch(api()+'/coverage')).json();
+    S.coverage=j.geotiff||{};
+    let boundsAll=null;
+    const rows=[];
+    for (const [kind,c] of Object.entries(S.coverage)){
+      if (c && c.bounds){
+        const label = kind==='mndwi' ? 'MNDWI GeoTIFFs' : kind==='fused' ? 'Adapted index (MNDWI+AEI)/2 GeoTIFFs' : 'Datewise land/water GeoTIFFs';
+        const yrs=(c.years||[]).join(', ')||'—';
+        const rect=L.rectangle(c.bounds,{color:'#75895C',weight:1.6,dashArray:'7 5',fillColor:'#9CAB8A',fillOpacity:.07});
+        rect.bindPopup(`<b>${label}</b><br>${c.n_scenes||0} scene(s) · years: ${yrs}`);
+        if(!S.covLayer){S.covLayer=L.layerGroup().addTo(map);S.layerCtrl.addOverlay(S.covLayer,'Data region (GeoTIFFs)');}
+        rect.addTo(S.covLayer);
+        boundsAll = boundsAll ? boundsAll.extend(L.latLngBounds(c.bounds)) : L.latLngBounds(c.bounds);
+        rows.push(`${kind}: ${c.n_scenes||0} scene(s), ${yrs}`);
+      }
+    }
+    if(boundsAll){ map.fitBounds(boundsAll.pad(.15)); }
+    el.textContent = rows.length ? 'GeoTIFF coverage (drawn on the map):\n' + rows.join('\n') + '\nWater levels: 10 gauge stations (dots)'
+                                 : 'No GeoTIFF coverage reported by the backend.';
+    showAvail();
+  }catch(e){
+    el.textContent='Coverage unavailable (backend or GitHub API unreachable) — analyses still run, but the map shows no data outline.';
+  }
+}
+function showAvail(){
+  const el=document.getElementById('avail'); if(!el)return;
+  const m=S.coverage.mndwi, f=S.coverage.fused;
+  el.textContent = `MNDWI years: ${m&&m.years?m.years.join(', '):'?'}\nFused index years: ${f&&f.years?f.years.join(', '):'?'}`;
 }
 async function plotStations(){
   if(S.stations.length) return;
@@ -296,23 +310,14 @@ async function plotStations(){
     S.stationLayer=L.layerGroup(S.stations.map(st=>
       L.circleMarker([st.lat,st.lon],{radius:5,color:'#9E5A41',weight:1.5,
         fillColor:'#C2AE92',fillOpacity:.95,className:'hydro-station'})
-        .bindPopup(`<b>${st.name}</b><br>${st.river||'GBM hydro database'}<br>${st.tidal||''}<br>Water levels auto-fetched`)))
+        .bindPopup(`<b>${st.name}</b><br>${st.river||'GBM hydro database'}<br>${st.tidal||''}<br>Water-level readings auto-fetched`)))
       .addTo(map);
     S.layerCtrl.addOverlay(S.stationLayer,'Tide gauges');
-    restyleStations();
   }catch(e){/* map still works without the station layer */}
-}
-function restyleStations(){
-  if(!S.stationLayer)return;
-  S.stationLayer.eachLayer(m=>{
-    const ll=m.getLatLng();
-    const inside=S.roi && ll.lng>=S.roi.w && ll.lng<=S.roi.e && ll.lat>=S.roi.s && ll.lat<=S.roi.n;
-    m.setStyle({radius:inside?7:5, weight:inside?2.5:1.5, fillColor:inside?'#7BA05B':'#C2AE92'});
-  });
 }
 function buildSpec(analyses){
   return {
-    roi:S.roi,
+    roi:S.roi,                              // GeoJSON Polygon or null
     index:document.getElementById('index').value,
     threshold:document.getElementById('threshold').value,
     years:[+y0.value,+y1.value],
@@ -323,18 +328,16 @@ function buildSpec(analyses){
     analyses:analyses
   };
 }
-
-/* ---------- buttons ---------- */
 function gate(){
   const on = S.apiOK && !S.busy;
-  ['classify','clean','intertidal','lifespan','chain'].forEach(k=>{
+  ['intertidal','lifespan','migration','all'].forEach(k=>{
     const b=document.getElementById('btn-'+k); if(!b)return;
     b.style.opacity = on?1:.5;
     b.style.pointerEvents = on?'auto':'none';
   });
 }
 
-/* ---------- run ---------- */
+/* ---------- run + results ---------- */
 function renderTabs(analyses){
   const tabs=document.getElementById('tabs'), panels=document.getElementById('panels');
   tabs.innerHTML='';panels.innerHTML='';
@@ -404,10 +407,9 @@ function renderResult(a,res){
       fig.innerHTML=`<div class="fighead">${ly.name||''} ${kindChip}</div>
                      <img src="${api()+ly.png}" loading="lazy" alt="${ly.name||''}">`;
       figs.appendChild(fig);
-      if(ly.bounds) addOverlay(a,ly);   // map layers are also draped on the Leaflet map
+      if(ly.bounds) addOverlay(a,ly);
     });
   }
-
   const fl=document.getElementById('files_'+a);
   if(fl){
     const files=(res.files||[]).filter(Boolean).filter(f=>/\.(tif|csv)$/i.test(f));
@@ -434,7 +436,7 @@ function addOverlay(a,ly){
 window.addEventListener('load',()=>{
   if(window.L){initMap();} else {document.getElementById('map').innerHTML='<div style="padding:20px;color:#9c8a6c">Map library blocked in this preview — it loads normally when the page is served by the backend.</div>';}
   gate();
-  checkApi();   // same-origin backend — status + gauge stations appear automatically
+  checkApi();
 });
 </script>
 </body>
