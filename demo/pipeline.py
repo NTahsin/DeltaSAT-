@@ -754,13 +754,13 @@ def run_migration(spec, ws, log, mock):
 
     mig_dir = ws / "06_migration"
     cfg = api.MetricsConfig(
-        bankline_dir=str(ws / "03_river_bin"),      # none → intertidal fallback
-        intertidal_dir=str(det_dir),
-        output_dir=str(mig_dir),
-        intertidal_glob="intertidal_{year}.tif",
-        pixel_size_m=float(spec.get("pixelSizeM", 30.0)),
-        use_intertidal_fallback=True,
-    )
+    bankline_dir=ws / "03_river_bin",   # Path, not str
+    intertidal_dir=det_dir,             # Path, not str
+    output_dir=mig_dir,                 # Path, not str
+    intertidal_glob="intertidal_{year}.tif",
+    pixel_size_m=float(spec.get("pixelSizeM", 30.0)),
+    use_intertidal_fallback=True,
+)
     df = api.ChannelMigrationAnalyzer(cfg, rois=None).run(years=years)
 
     layers = []
