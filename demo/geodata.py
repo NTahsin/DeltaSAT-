@@ -109,8 +109,25 @@ def _tif_bounds_wgs84(path: Path):
         return None
 
 
-def fetch(kind: str, log=print) -> list[Path]:
-    """Local paths of all GeoTIFFs of ``kind`` ('mndwi'|'fused'|'binary').
+def _in_years(name: str, years) -> bool:
+    """True when a scene filename falls in the requested (y0, y1) range.
+
+    ``years`` is a pair like the toolkit's spec (``[y0, y1]``) — either side
+    may be None/empty for an open range; a falsy ``years`` means "all".
+    """
+    if not years:
+        return True
+    y = _year_of(name)
+    if y is None:
+        return True
+    y0 = years[0] or None
+    y1 = years[1] if len(years) > 1 else None
+    return ((not y0 or y >= int(y0)) and (not y1 or y <= int(y1)))
+
+
+def fetch(kind: str, log=print, years=None) -> list[Path]:
+    """Local paths of the GeoTIFFs of ``kind`` ('mndwi'|'fused'|'binary')
+    **for the requested years** (pair ``[y0, y1]``; None/empty = all).
 
     Downloads anything missing from the GitHub database first (cached under
     ``WORK_DIR/_geodata``), so repeat runs are offline. Delete the cache
@@ -120,11 +137,20 @@ def fetch(kind: str, log=print) -> list[Path]:
         raise ValueError(f"unknown data kind '{kind}' (use: {', '.join(FOLDERS)})")
     dest_dir = folder(kind)
     have = sorted(dest_dir.glob("*.tif")) if dest_dir.exists() else []
+    have = [p for p in have if _in_years(p.name, years)]
     if have:
-        log(f"geodata: {len(have)} cached {kind} GeoTIFF(s) in {dest_dir}")
+        log(f"geodata: {len(have)} cached {kind} GeoTIFF(s) in {dest_dir}"
+            + (f" for years {years[0]}–{years[1]}" if years else ""))
         return have
     entries = _list_folder(kind)
+    if years:
+        entries = [e for e in entries if _in_years(e["name"], years)]
     if not entries:
+        if years:
+            raise RuntimeError(
+                f"no '{kind}' scenes for {years[0] or '…'}–{years[1] or '…'} "
+                f"in geotiffs/{FOLDERS[kind]} ({REPO}) — pick years from the "
+                f"'available scene years' list on the map panel")
         raise RuntimeError(f"no GeoTIFFs found in the database folder "
                            f"'geotiffs/{FOLDERS[kind]}' ({REPO})")
     return sorted(_download(e, dest_dir, log) for e in entries)
