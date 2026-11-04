@@ -25,10 +25,10 @@
   .navlinks a:hover{color:var(--ink)}
   .btn{display:inline-flex;align-items:center;gap:7px;font-weight:600;font-size:.9rem;padding:10px 18px;border-radius:8px;background:var(--river-deep);color:#fff;border:none;cursor:pointer}
   .btn:hover{background:#54707b}
-  /* page layout */
-  body{overflow:hidden}
-  .app{display:grid;grid-template-columns:360px 1fr;height:calc(100vh - 66px)}
-  .rail{border-right:1px solid var(--line);overflow-y:auto;background:#fff;padding:20px 20px 60px}
+  /* page layout — the whole page scrolls, content flows naturally */
+  body{overflow-x:hidden}
+  .app{display:grid;grid-template-columns:360px 1fr;align-items:start;min-height:calc(100vh - 66px)}
+  .rail{border-right:1px solid var(--line);background:#fff;padding:20px 20px 40px}
   .rail::-webkit-scrollbar{width:9px}.rail::-webkit-scrollbar-thumb{background:#e0dacd;border-radius:6px}
   .grp{margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--line)}
   .grp:last-child{border-bottom:none}
@@ -53,9 +53,9 @@
   .acard p{font-size:.78rem;color:var(--ink-soft);line-height:1.5;margin-bottom:8px}
   /* stage / map / results */
   .stage{display:flex;flex-direction:column;min-width:0}
-  #map{height:60%;min-height:380px;background:var(--river-pale);z-index:1}
+  #map{height:64vh;min-height:420px;background:var(--river-pale);z-index:1}
   .maptools{position:absolute;z-index:600;top:12px;left:50px;display:flex;gap:8px;background:rgba(255,255,255,.92);backdrop-filter:blur(6px);padding:6px;border-radius:9px;box-shadow:var(--shadow)}
-  .results{flex:1;overflow-y:auto;border-top:1px solid var(--line);background:#FBFAF6;padding:18px 22px}
+  .results{border-top:1px solid var(--line);background:#FBFAF6;padding:18px 22px}
   .resbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:14px;flex-wrap:wrap}
   .resbar h2{font-family:"Roboto",sans-serif;font-size:1.05rem;font-weight:600}
   .tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
@@ -79,7 +79,7 @@
   details.logbox{margin-top:12px}
   details.logbox summary{cursor:pointer;font-size:.82rem;color:var(--ink-soft)}
   details.logbox pre{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.74rem;background:var(--cream);border:1px solid #e6ddc9;border-radius:8px;padding:10px 12px;white-space:pre-wrap;margin-top:8px}
-  @media(max-width:900px){body{overflow:auto}.app{grid-template-columns:1fr;height:auto}.rail{border-right:none;border-bottom:1px solid var(--line)}#map{height:70vh}}
+  @media(max-width:900px){.app{grid-template-columns:1fr}.rail{border-right:none;border-bottom:1px solid var(--line)}#map{height:70vh}}
 </style>
 </head>
 <body>
