@@ -4,8 +4,9 @@ app.py — DeltaSAT backend API (FastAPI, no-GEE edition).
 Endpoints
 ---------
 GET  /health                      → {ok, mock, mode}
-GET  /stations                    → Meghna-estuary gauge stations from the
-                                     GitHub hydro database (auto-downloaded)
+GET  /coverage                    → GeoTIFF footprints + available years
+                                    + gauge stations (drawn on the map)
+GET  /stations                    → gauge stations (kept for compatibility)
 POST /jobs         (JSON spec)    → start an async analysis job → {job_id}
 GET  /jobs/{id}                    → status, log, per-analysis results
 GET  /jobs/{id}/file?path=...      → download an output file (png/pdf/csv/tif)
@@ -30,16 +31,15 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
 import pipeline
+import geodata
 import hydro
 
 MODE = os.getenv("MOCK_MODE", "auto").strip().lower()   # auto | 0 | 1
 app = FastAPI(title="DeltaSAT backend")
 
-# Allow the static toolkit page (any origin during dev) to call the API.
 app.add_middleware(CORSMiddleware, allow_origins=["*"],
                    allow_methods=["*"], allow_headers=["*"])
 
-# In-memory job store. Swap for Redis/DB in production.
 JOBS: dict[str, dict] = {}
 _LOCK = threading.Lock()
 
@@ -59,9 +59,20 @@ def health():
             "toolkit_dir": os.getenv("TOOLKIT_DIR", "") or None}
 
 
+@app.get("/coverage")
+def coverage():
+    """Data region for the Leaflet map: GeoTIFF footprints (+ years,
+    scene counts) and the tide-gauge stations with water-level readings."""
+    try:
+        return {"ok": True,
+                "geotiff": geodata.coverage(log=lambda m: None),
+                "stations": hydro.station_table(log=lambda m: None)}
+    except Exception as exc:
+        raise HTTPException(503, f"data coverage unavailable: {exc}")
+
+
 @app.get("/stations")
 def stations():
-    """Gauge stations of the Meghna-estuary hydro database (for the map)."""
     try:
         return {"ok": True, "stations": hydro.station_table()}
     except Exception as exc:
@@ -84,11 +95,13 @@ def _run_job(job_id, spec):
 
 @app.post("/jobs")
 async def create_job(spec: dict):
-    """Start an analysis job. The spec is a plain JSON body — there are no
-    file uploads; GeoTIFFs and water levels are fetched by the backend."""
+    """Start an analysis job. The spec is a plain JSON body — no file uploads;
+    GeoTIFFs and water levels are fetched by the backend. ``roi`` is an
+    optional GeoJSON Polygon every analysis is clipped to."""
     job_id = uuid.uuid4().hex[:12]
     with _LOCK:
-        JOBS[job_id] = {"status": "queued", "log": [], "results": {}, "spec": spec}
+        JOBS[job_id] = {"status": "queued", "log": [], "results": {},
+                        "spec": spec}
     threading.Thread(target=_run_job, args=(job_id, spec),
                      daemon=True).start()
     return {"job_id": job_id}
@@ -100,7 +113,6 @@ def job_status(job_id: str):
         j = JOBS.get(job_id)
         if not j:
             raise HTTPException(404, "unknown job")
-        # expose files & layer PNGs as API-relative paths the front-end can fetch
         results = {a: _rewrite(job_id, r) for a, r in j["results"].items()}
         return {"job_id": job_id, "status": j["status"],
                 "log": j["log"], "results": results}
@@ -134,9 +146,5 @@ def job_file(job_id: str, path: str):
     return FileResponse(str(target))
 
 
-# --------------------------------------------------------------------------- #
-# the front-end IS served by this backend — one server, same origin,
-# zero configuration: open http://localhost:8000 after starting it
-# --------------------------------------------------------------------------- #
 app.mount("/", StaticFiles(directory=str(Path(__file__).resolve().parent),
                            html=True), name="site")
